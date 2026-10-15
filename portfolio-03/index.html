@@ -161,6 +161,15 @@ p{margin:0}
 .brief p{color:var(--room-ink);opacity:.86;max-width:46ch}
 .visit{display:inline-flex;align-items:center;gap:10px;margin-top:26px;padding:13px 20px;border:1.5px solid var(--room-ink);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:background .3s,color .3s}
 .visit:hover{background:var(--room-ink);color:var(--room)}
+.bnav{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:34px;padding-top:18px;border-top:1px solid var(--room-rule);max-width:46ch}
+.bcount{font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--room-dim);font-variant-numeric:tabular-nums}
+.bcount b{color:var(--room-ink);font-weight:600;display:inline-block}
+.bcount b.flip{animation:cflip .5s var(--ease)}
+@keyframes cflip{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
+.bnext{display:inline-flex;align-items:center;gap:12px;padding:0;background:none;border:0;color:var(--room-ink);font:600 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.bnext .ar{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--room-ink);font-size:16px;letter-spacing:0;transition:background .35s var(--ease),color .35s var(--ease),transform .5s var(--ease)}
+.bnext:hover .ar,.bnext:focus-visible .ar{background:var(--room-ink);color:var(--room);transform:translateX(4px)}
+.bnext:focus-visible{outline:none}
 @media (max-width:900px){.screen-wrap{grid-template-columns:1fr}}
 .index{margin-top:72px;border-top:1px solid var(--room-rule);list-style:none;padding:0}
 .index li{border-bottom:1px solid var(--room-rule)}
@@ -403,6 +412,7 @@ kb.innerHTML=h})();
         <h3 class="x" id="b-title">Comfort World</h3>
         <p id="b-copy">I worked with Fudge the agency to deliver this corporate website for Comfort World International, made just for their corporate clients, luxury hotels. I wanted visitors to experience a real sense of calm, clarity and comfort as they explore the tailor-made, custom and ready-made ranges.</p>
         <a class="visit" id="b-link" href="https://comfortworld.lk/" target="_blank" rel="noopener">Visit the live site ↗</a>
+        <div class="bnav"><span class="bcount" id="b-count" aria-live="polite"><b>01</b> / 04</span><button type="button" class="bnext" id="b-next" aria-label="Next project">Next project<span class="ar" aria-hidden="true">→</span></button></div>
       </div>
     </div>
     <ul class="index" id="index"></ul>
@@ -634,7 +644,9 @@ kb.innerHTML=h})();
     document.getElementById('b-year').textContent=p.y;
     document.getElementById('b-copy').textContent=p.c;
     document.getElementById('b-link').href=p.u;
+    var bc=document.getElementById('b-count');bc.innerHTML='<b class="flip">0'+(i+1)+'</b> / 0'+P.length;
   }
+  document.getElementById('b-next').addEventListener('click',function(){show((cur+1)%P.length)});
 
   // auto-advance through the projects until the visitor picks one
   if(!reduce){idx.classList.add('auto');

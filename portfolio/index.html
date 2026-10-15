@@ -629,7 +629,7 @@ kb.innerHTML=h})();
     var li=document.createElement('li');
     li.innerHTML='<button type="button" aria-current="'+(i===0)+'"><span class="yr">'+p.y+'</span><span class="t x">'+p.t+'</span><span class="ty">'+p.ty+'</span><span class="ar" aria-hidden="true">→</span></button>';
     var b=li.firstChild;
-    b.addEventListener('click',function(){show(i)});
+    b.addEventListener('click',function(){show(i);window.open(p.u,'_blank','noopener')});
     b.addEventListener('mouseenter',function(){if(matchMedia('(hover:hover)').matches)show(i)});
     b.addEventListener('focus',function(){show(i)});
     idx.appendChild(li);

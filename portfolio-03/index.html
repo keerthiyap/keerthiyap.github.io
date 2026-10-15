@@ -206,10 +206,18 @@ p{margin:0}
 .plabel{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;margin-top:clamp(8px,2vw,24px);margin-bottom:calc(-1*clamp(16px,3vw,40px) + 4px)}
 .plabel .pl-name{font-size:clamp(26px,3.6vw,52px);text-wrap:balance}
 .plabel .pl-kind{color:var(--oxblood)}
-.pstage{--w:clamp(140px,34vw,560px);--h:calc(var(--w)*.494);--r:calc(var(--w)*1.2071);position:relative;display:grid;place-items:start center;padding-top:calc(var(--h)*.16);min-height:calc(var(--h)*1.95);perspective:calc(var(--w)*6);perspective-origin:50% 50%;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:none}
+.pstage{--w:clamp(140px,34vw,560px);--h:calc(var(--w)*.494);--r:calc(var(--w)*1.2071);position:relative;display:grid;place-items:start center;padding-top:calc(var(--h)*.62);min-height:calc(var(--h)*2.55);perspective:calc(var(--w)*6);perspective-origin:50% 50%;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:none}
 .pstage:focus-visible{outline:2px solid var(--oxblood);outline-offset:-8px}
 .pstage.drag{cursor:grabbing}
+.pbox{position:relative;width:var(--w);height:var(--h);transform-style:preserve-3d;transform-origin:50% 100%}
 .prism{position:relative;width:var(--w);height:var(--h);transform-style:preserve-3d}
+.pref{position:absolute;left:0;top:0;width:var(--w);height:var(--h);transform-origin:50% 100%;transform:scaleY(-1);transform-style:preserve-3d;pointer-events:none}
+.pref .face{backface-visibility:visible;-webkit-backface-visibility:visible}
+.pref .face::after{background:linear-gradient(to top,rgba(228,225,216,.42) 0%,rgba(228,225,216,.8) 38%,var(--bone) 72%)}
+.iface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--room);transform:rotateY(calc(var(--k)*45deg)) translateZ(calc(var(--r) - 2px)) rotateY(180deg)}
+.iface img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.iface::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,19,17,.5),rgba(19,19,17,.78))}
+.face::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(105deg,rgba(255,255,255,0) 20%,rgba(255,255,255,.55) 48%,rgba(255,255,255,0) 72%);opacity:var(--glint,0)}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--room);border:0;overflow:hidden;transform:rotateY(calc(var(--k)*45deg)) translateZ(var(--r))}
 .face video,.face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .face .tag{position:absolute;left:0;bottom:0;display:flex;gap:10px;padding:6px 10px;background:var(--ink);color:var(--bone);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
@@ -218,7 +226,7 @@ p{margin:0}
 .face::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,0) 35%,rgba(0,0,0,0) 62%,rgba(0,0,0,.22) 100%)}
 .face.front .tag{background:var(--oxblood)}
 .face.front .tag span{color:var(--on-ox)}
-.floor{position:absolute;left:50%;top:calc(var(--h)*1.26);width:calc(var(--w)*2.5);height:calc(var(--h)*.7);transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(19,19,17,.5),rgba(19,19,17,.22) 55%,rgba(19,19,17,0));pointer-events:none}
+.floor{position:absolute;left:50%;top:calc(var(--h)*1.6);width:calc(var(--w)*2.5);height:calc(var(--h)*.7);transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(19,19,17,.5),rgba(19,19,17,.22) 55%,rgba(19,19,17,0));pointer-events:none}
 .floor::before{content:"";position:absolute;left:16%;right:16%;top:6%;height:16%;border-radius:50%;background:var(--ink);opacity:.55;filter:blur(9px)}
 .pwrap{position:relative;display:grid}
 .feature .drag{animation:nudge 2.6s var(--ease) infinite}
@@ -368,7 +376,7 @@ footer a{text-decoration:none}
   <div class="pwrap">
     <div class="pstage" id="pstage" tabindex="0" aria-label="Drag or use the arrow keys to turn the prism. Press Enter to watch the project in front.">
       <div class="floor" aria-hidden="true"></div>
-      <div class="prism" id="prism"></div>
+      <div class="pbox"><div class="prism" id="prism"></div><div class="pref" aria-hidden="true"><div class="prism" id="prismRef"></div></div></div>
     </div>
   </div>
 </section>
@@ -477,8 +485,13 @@ footer a{text-decoration:none}
 
   // full-screen 3D feature: eight-sided prism (video, logo, video, logo...), drag to spin, settles on a side
   var prism=document.getElementById('prism'),pst=document.getElementById('pstage'),count=document.getElementById('count');
-  var faces=[];
+  var faces=[],refFaces=[],prismRef=document.getElementById('prismRef'),pbox=document.querySelector('.pbox');
   P.forEach(function(p,i){
+    // inner walls (seen through the open top, in shadow) and the floor reflection use stills, not video
+    [['<img src="../img/'+p.id+'-poster.jpg" alt="" width="1280" height="632">'],['<img src="../img/'+p.id+'-logo.svg" alt="" width="1280" height="632">']].forEach(function(s,j){
+      var k=i*2+j,n=document.createElement('div');n.className='iface';n.style.setProperty('--k',k);n.innerHTML=s[0];prism.appendChild(n);
+      var r=document.createElement('div');r.className='face';r.style.setProperty('--k',k);r.innerHTML=s[0]+'<div class="shade"></div>';prismRef.appendChild(r);refFaces.push(r);
+    });
     [['Website','<video muted loop playsinline preload="none" poster="../img/'+p.id+'-poster.jpg" src="../img/'+p.id+'.mp4"></video>'],
      ['Brand','<img src="../img/'+p.id+'-logo.svg" alt="" width="1280" height="632">']].forEach(function(s,j){
       var k=i*2+j,d=document.createElement('div');d.className='face';d.style.setProperty('--k',k);
@@ -486,14 +499,15 @@ footer a{text-decoration:none}
       prism.appendChild(d);faces.push({el:d,p:i,kind:s[0],vid:d.querySelector('video')});
     });
   });
-  var rot=0,tilt=-5,vel=0,dragging=false,moved=0,lastX=0,lastY=0,target=null,auto=!reduce,inView=false,pFront=-1;
+  var rot=0,tilt=-12,vel=0,dragging=false,moved=0,lastX=0,lastY=0,target=null,auto=!reduce,inView=false,pFront=-1;
   function norm(a){return ((a%360)+360)%360}
   function frontIndex(){return Math.round(norm(-rot)/45)%8}
   function render(){
-    prism.style.transform='rotateX('+tilt+'deg) rotateY('+rot+'deg)';
+    pbox.style.transform='rotateX('+tilt+'deg)';prism.style.transform=prismRef.style.transform='rotateY('+rot+'deg)';
     var fi=frontIndex();
     faces.forEach(function(f,k){var a=norm(k*45+rot);if(a>180)a-=360;var c=Math.cos(a*Math.PI/180);
-      f.el.style.setProperty('--dim',Math.max(0,(1-c)*.62).toFixed(3));
+      var cl=Math.cos((a+35)*Math.PI/180),dim=Math.max(0,(1-cl)*.42+(1-c)*.18).toFixed(3),gl=(Math.pow(Math.max(0,cl),14)*.32).toFixed(3);
+      f.el.style.setProperty('--dim',dim);f.el.style.setProperty('--glint',gl);refFaces[k].style.setProperty('--dim',dim);
       if(f.vid){var vis=Math.abs(a)<70&&inView;if(vis&&f.vid.paused){var pr=f.vid.play();if(pr&&pr.catch)pr.catch(function(){})}else if(!vis&&!f.vid.paused)f.vid.pause()}});
     if(fi!==pFront){pFront=fi;faces.forEach(function(f,k){f.el.classList.toggle('front',k===fi)});
       var f=faces[fi];count.innerHTML='<b>0'+(fi+1)+'</b> / 08';document.getElementById('plKind').textContent=f.kind;var pn=document.getElementById('plName');if(GL)decode(pn,P[f.p].t);else pn.textContent=P[f.p].t}
@@ -506,13 +520,13 @@ footer a{text-decoration:none}
       if(target!==null){var d=target-rot;rot+=d*Math.min(1,dt*7);if(Math.abs(d)<.05){rot=target;target=null;idle=0}}
       else if(Math.abs(vel)>.2){rot+=vel*dt;vel*=Math.pow(.04,dt);if(Math.abs(vel)<=6){vel=0;snapTo(nearest())}}
       else if(auto&&inView){idle+=dt;if(idle>2.2){idle=0;snapTo(nearest()-45)}}
-      tilt+=(-5-tilt)*Math.min(1,dt*3);
+      tilt+=(-12-tilt)*Math.min(1,dt*3);
     }
     render();requestAnimationFrame(tick)}
   render();requestAnimationFrame(tick);
   pst.addEventListener('pointerdown',function(e){dragging=true;moved=0;lastX=e.clientX;lastY=e.clientY;vel=0;target=null;pst.classList.add('drag');try{pst.setPointerCapture(e.pointerId)}catch(_){}});
   pst.addEventListener('pointermove',function(e){if(!dragging)return;var dx=e.clientX-lastX,dy=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;moved+=Math.abs(dx)+Math.abs(dy);
-    var s=180/Math.max(320,pst.clientWidth*.6);rot+=dx*s;vel=dx*s*60;tilt=Math.max(-22,Math.min(14,tilt-dy*.15))});
+    var s=180/Math.max(320,pst.clientWidth*.6);rot+=dx*s;vel=dx*s*60;tilt=Math.max(-24,Math.min(2,tilt-dy*.15))});
   function end(e){if(!dragging)return;dragging=false;pst.classList.remove('drag');idle=0;
     if(moved<6){var el=document.elementFromPoint(e.clientX,e.clientY),fe=el&&el.closest('.face');if(fe){var k=+fe.style.getPropertyValue('--k');
       if(k===frontIndex())watch(k);else{var want=-k*45,cur=rot;var diff=norm(want-cur);if(diff>180)diff-=360;snapTo(cur+diff)}}}

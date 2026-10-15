@@ -265,15 +265,16 @@ p{margin:0}
 
 
 /* ---------- prism + about sit in the dark room ---------- */
-.feature,.about{--bone:#0F0F0E;--paper:#1A1A18;--ink:#ECEAE3;--graphite:#8C8A82;--rule:#2A2A27;--oxblood:#B9473B;background:var(--room);color:var(--room-ink)}
+.feature,.about,.exp{--bone:#0F0F0E;--paper:#1A1A18;--ink:#ECEAE3;--graphite:#8C8A82;--rule:#2A2A27;--oxblood:#B9473B;background:var(--room);color:var(--room-ink)}
 .feature .pbox{--ink:#131311;--bone:#E4E1D8}
-.feature .pref .face::after{background:linear-gradient(to top,rgba(15,15,14,.5) 0%,rgba(15,15,14,.82) 38%,#0F0F0E 72%)}
+.feature .pref .face::after{background:linear-gradient(to top,rgba(15,15,14,.74) 0%,rgba(15,15,14,.9) 18%,rgba(15,15,14,.97) 34%,#0F0F0E 50%)}
 .feature .floor{background:radial-gradient(closest-side,rgba(236,234,227,.08),rgba(236,234,227,.03) 55%,rgba(236,234,227,0))}
 .feature .floor::before{background:#000;opacity:.8}
-.about{padding-top:100px;box-shadow:0 0 0 100vmax var(--room);clip-path:inset(0 -100vmax)}
+.about{padding-top:100px}
+.about,.exp{box-shadow:0 0 0 100vmax var(--room);clip-path:inset(-2px -100vmax)}
 
 /* ---------- experience ---------- */
-.exp{padding-block:110px 140px}
+.exp{padding-block:40px 140px}
 .jobs{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--ink)}
 .jobs li{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.8fr) 110px;gap:20px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--rule);position:relative}
 .jobs li::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--oxblood);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
@@ -291,8 +292,14 @@ p{margin:0}
 .big{margin:28px 0 0;font-size:clamp(46px,10.2vw,156px)}
 .big .row{display:block}
 .big .W{display:inline-block;white-space:nowrap}
-.big .L2{display:inline-block;transition:font-variation-settings .45s var(--ease),transform 1s var(--ease),opacity 1s var(--ease)}
-.big.pre .L2{transform:translateY(.55em) rotate(4deg);opacity:.12}
+.big .L2{display:inline-block;transition:font-variation-settings .45s var(--ease)}
+#ct-h{white-space:nowrap;line-height:.94}
+#ct-h .row{width:max-content}
+#ct-h.tw .L2{visibility:hidden}
+#ct-h.tw .L2.on{visibility:visible}
+#ct-h .caret{display:inline-block;width:.07em;height:.78em;margin:0 -.11em 0 .04em;vertical-align:-.02em;background:currentColor;animation:blink 1.05s steps(1) infinite}
+#ct-h .caret.typing{animation:none}
+@keyframes blink{50%{opacity:0}}
 .mail{transition:background .4s var(--ease)}
 .mail:hover{background:rgba(241,239,232,.08)}
 .mail button{transition:background .3s,color .3s}
@@ -659,7 +666,7 @@ kb.innerHTML=h})();
   var mbg=document.getElementById('mastbg'),roomEl=document.getElementById('work'),ctEl=document.getElementById('contact');
   function under(el){var r=el.getBoundingClientRect();return r.top<33&&r.bottom>33}
   function onScroll(){
-    mbg.classList.toggle('dark',under(roomEl)||under(document.querySelector('.feature'))||under(document.getElementById('about')));mbg.classList.toggle('ox',under(ctEl));
+    mbg.classList.toggle('dark',under(roomEl)||under(document.querySelector('.feature'))||under(document.getElementById('about'))||under(document.getElementById('experience')));mbg.classList.toggle('ox',under(ctEl));
     var h=document.documentElement.scrollHeight-innerHeight; prog.style.transform='scaleX('+(h>0?scrollY/h:0)+')';
     var r=steps.getBoundingClientRect(),k=Math.min(1,Math.max(0,(innerHeight*.62-r.top)/r.height));
     fill.style.transform='scaleY('+k+')';
@@ -673,11 +680,22 @@ kb.innerHTML=h})();
 
   // contact headline: letters rise in once, then condense around the pointer
   (function(){var h=document.getElementById('ct-h'),Ls=[];
+    h.setAttribute('aria-label',h.textContent.replace(/\s+/g,' ').trim());
     h.querySelectorAll('.row').forEach(function(r){var txt=r.textContent;r.textContent='';txt.split(' ').forEach(function(w,wi){if(wi)r.appendChild(document.createTextNode(' '));
-      var W=document.createElement('span');W.className='W';W.setAttribute('aria-hidden','true');w.split('').forEach(function(c){var s=document.createElement('span');s.className='L2';s.textContent=c;s.style.transitionDelay='0s,'+(Ls.length*32)+'ms,'+(Ls.length*32)+'ms';W.appendChild(s);Ls.push(s)});r.appendChild(W)})});
-    if(reduce)return;
-    h.classList.add('pre');
-    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){h.classList.remove('pre');o.disconnect();setTimeout(function(){Ls.forEach(function(s){s.style.transitionDelay='0s'})},1800)}})},{threshold:.4}).observe(h);
+      var W=document.createElement('span');W.className='W';W.setAttribute('aria-hidden','true');w.split('').forEach(function(c){var s=document.createElement('span');s.className='L2';s.textContent=c;W.appendChild(s);Ls.push(s)});r.appendChild(W)})});
+    // fit the longest line to the full content width
+    function ctFit(){h.style.fontSize='100px';var m=0;h.querySelectorAll('.row').forEach(function(r){m=Math.max(m,r.getBoundingClientRect().width)});
+      var cs=getComputedStyle(h.parentElement),av=h.parentElement.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+      if(m)h.style.fontSize=(100*av/m*.975).toFixed(2)+'px'}
+    ctFit();try{document.fonts.load('800 100px Archivo').then(ctFit)}catch(e){}addEventListener('load',ctFit);setTimeout(ctFit,800);addEventListener('resize',ctFit);
+    var caret=document.createElement('span');caret.className='caret';caret.setAttribute('aria-hidden','true');
+    if(reduce){Ls[Ls.length-1].after(caret);return}
+    h.classList.add('tw');h.querySelector('.row').prepend(caret);
+    new IntersectionObserver(function(es,o){es.forEach(function(e){if(!e.isIntersecting)return;o.disconnect();
+      var i=0;caret.classList.add('typing');
+      setTimeout(function step(){var s=Ls[i];s.classList.add('on');s.after(caret);i++;
+        if(i<Ls.length){var nx=Ls[i],gap=(nx.parentNode!==s.parentNode)?(nx.closest('.row')!==s.closest('.row')?420:170):0;setTimeout(step,70+Math.random()*60+gap)}
+        else caret.classList.remove('typing')},500)})},{threshold:.45}).observe(h);
     if(!matchMedia('(hover:hover)').matches)return;
     var sec=document.getElementById('contact');
     sec.addEventListener('pointermove',function(e){Ls.forEach(function(s){var r=s.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-e.clientX,r.top+r.height/2-e.clientY),k=Math.max(0,1-d/260);s.style.fontVariationSettings='"wdth" '+(125-58*k).toFixed(1)})});

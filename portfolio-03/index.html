@@ -221,7 +221,7 @@ p{margin:0}
 /* ---------- full-screen 3D feature: a twelve-sided prism, each project's video beside its logo ---------- */
 .feature{position:relative;min-height:100svh;display:grid;grid-template-rows:auto auto auto;align-content:center;gap:clamp(16px,3vw,40px);padding-block:96px 56px;overflow:hidden;background:var(--bone)}
 .feature .wrap{width:100%}
-.feature .meta{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.feature .meta{display:flex;justify-content:flex-end;align-items:center;gap:16px;flex-wrap:wrap}
 .feature .count{font-variant-numeric:tabular-nums}
 .feature .count b{color:var(--oxblood);font-weight:600}
 .plabel{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;margin-top:clamp(8px,2vw,24px);margin-bottom:calc(-1*clamp(16px,3vw,40px) + 4px)}
@@ -237,7 +237,7 @@ p{margin:0}
 .pref .face::after{background:linear-gradient(to top,rgba(228,225,216,.42) 0%,rgba(228,225,216,.8) 38%,var(--bone) 72%)}
 .iface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--room);transform:rotateY(calc(var(--k)*var(--a))) translateZ(calc(var(--r) - 2px)) rotateY(180deg)}
 .iface img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.iface::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,19,17,.5),rgba(19,19,17,.78))}
+.iface::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,9,.82),rgba(10,10,9,.96))}
 .face::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(105deg,rgba(255,255,255,0) 20%,rgba(255,255,255,.55) 48%,rgba(255,255,255,0) 72%);opacity:var(--glint,0)}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--room);border:0;overflow:hidden;transform:rotateY(calc(var(--k)*var(--a))) translateZ(var(--r))}
 .face video,.face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
@@ -248,8 +248,11 @@ p{margin:0}
 .face.front .tag{background:var(--oxblood)}
 .face.front .tag span{color:var(--on-ox)}
 .floor{position:absolute;left:50%;top:calc(var(--h)*1.6);width:calc(var(--w)*3.7);height:calc(var(--h)*.7);transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(19,19,17,.5),rgba(19,19,17,.22) 55%,rgba(19,19,17,0));pointer-events:none}
-.floor::before{content:"";position:absolute;left:16%;right:16%;top:6%;height:16%;border-radius:50%;background:var(--ink);opacity:.55;filter:blur(9px)}
+.floor::before{content:"";position:absolute;left:18%;right:18%;top:2%;height:22%;border-radius:50%;background:#000;opacity:.95;filter:blur(12px)}
+.floor::after{content:"";position:absolute;left:8%;right:8%;top:-6%;height:46%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.75),rgba(0,0,0,0));}
 .pwrap{position:relative;display:grid}
+.pfog{position:absolute;left:calc(var(--w)*-1.35);width:calc(var(--w)*3.7);top:-40%;height:180%;pointer-events:none;background:radial-gradient(ellipse 50% 50% at 50% 55%,rgba(8,8,7,.97) 0%,rgba(8,8,7,.9) 45%,rgba(8,8,7,.55) 72%,rgba(8,8,7,0) 100%)}
+.face video,.face img{image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(0)}
 .feature .drag{animation:nudge 2.6s var(--ease) infinite}
 @keyframes nudge{0%,100%{transform:none}50%{transform:translateX(6px)}}
 @media (hover:none){.feature .hov{display:none}}
@@ -436,7 +439,7 @@ kb.innerHTML=h})();
 </section>
 
 <section class="feature" aria-label="Six projects on a twelve-sided 3D prism: each website's recording beside its brand logo">
-  <div class="wrap meta lbl"><span>Six brands, twelve sides</span><span class="count" id="count"><b>01</b> / 12</span></div>
+  <div class="wrap meta lbl"><span class="count" id="count"><b>01</b> / 12</span></div>
   <div class="wrap plabel" aria-live="polite"><span class="pl-kind lbl" id="plKind">Website</span><span class="pl-name x" id="plName">Comfort World</span></div>
   <div class="pwrap">
     <div class="pstage" id="pstage" tabindex="0" aria-label="Drag or use the arrow keys to turn the prism. Press Enter to watch the project in front.">
@@ -555,6 +558,7 @@ kb.innerHTML=h})();
   function pad(n){return (n<10?'0':'')+n}
   var prism=document.getElementById('prism'),pst=document.getElementById('pstage'),count=document.getElementById('count');
   var faces=[],refFaces=[],prismRef=document.getElementById('prismRef'),pbox=document.querySelector('.pbox');
+  var fog=document.createElement('div');fog.className='pfog';fog.setAttribute('aria-hidden','true');prism.appendChild(fog);
   PZ.forEach(function(p,i){
     // inner walls (seen through the open top, in shadow) and the floor reflection use stills, not video
     [['<img src="../img/'+p.id+'-poster.jpg" alt="" width="1280" height="632">'],['<img src="../img/'+p.id+'-logo.svg" alt="" width="1280" height="632">']].forEach(function(s,j){
@@ -568,11 +572,11 @@ kb.innerHTML=h})();
       prism.appendChild(d);faces.push({el:d,p:i,kind:s[0],vid:d.querySelector('video')});
     });
   });
-  var rot=0,tilt=-12,vel=0,dragging=false,moved=0,lastX=0,lastY=0,target=null,auto=!reduce,inView=false,pFront=-1;
+  var rot=0,tilt=-6,vel=0,dragging=false,moved=0,lastX=0,lastY=0,target=null,auto=!reduce,inView=false,pFront=-1;
   function norm(a){return ((a%360)+360)%360}
   function frontIndex(){return Math.round(norm(-rot)/A)%N}
   function render(){
-    pbox.style.transform='rotateX('+tilt+'deg)';prism.style.transform=prismRef.style.transform='rotateY('+rot+'deg)';
+    pbox.style.transform='rotateX('+tilt+'deg)';prism.style.transform=prismRef.style.transform='rotateY('+rot+'deg)';fog.style.transform='rotateY('+(-rot)+'deg)';
     var fi=frontIndex();
     faces.forEach(function(f,k){var a=norm(k*A+rot);if(a>180)a-=360;var c=Math.cos(a*Math.PI/180);
       var cl=Math.cos((a+35)*Math.PI/180),dim=Math.max(0,(1-cl)*.42+(1-c)*.18).toFixed(3),gl=(Math.pow(Math.max(0,cl),14)*.32).toFixed(3);
@@ -589,7 +593,7 @@ kb.innerHTML=h})();
       if(target!==null){var d=target-rot;rot+=d*Math.min(1,dt*7);if(Math.abs(d)<.05){rot=target;target=null;idle=0}}
       else if(Math.abs(vel)>.2){rot+=vel*dt;vel*=Math.pow(.04,dt);if(Math.abs(vel)<=6){vel=0;snapTo(nearest())}}
       else if(auto&&inView){idle+=dt;if(idle>2.2){idle=0;snapTo(nearest()-A)}}
-      tilt+=(-12-tilt)*Math.min(1,dt*3);
+      tilt+=(-6-tilt)*Math.min(1,dt*3);
     }
     render();requestAnimationFrame(tick)}
   render();requestAnimationFrame(tick);

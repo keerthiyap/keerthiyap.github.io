@@ -76,8 +76,9 @@ p{margin:0}
 .status{display:inline-flex;align-items:center;gap:10px}
 .status i{width:8px;height:8px;border-radius:50%;background:var(--oxblood);animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
-.lede{margin-top:56px;font-size:clamp(26px,3.3vw,46px);line-height:1.12;letter-spacing:-.02em;font-weight:500;max-width:22ch;text-wrap:balance}
-.lede .sw{display:inline-block;color:var(--oxblood);white-space:nowrap}
+.lede{margin-top:56px;font-size:clamp(26px,3.3vw,46px);line-height:1.12;letter-spacing:-.02em;font-weight:500;max-width:none}
+.lede .fx{display:block}
+.lede .sw{display:block;color:var(--oxblood);white-space:nowrap}
 .name{letter-spacing:0;position:relative;margin:clamp(48px,7vw,96px) 0 0;font-size:min(11.6vw,168px)}
 .name .row{display:flex;justify-content:space-between}
 .name .L{display:inline-block;animation:open 1.4s var(--ease) both}
@@ -350,7 +351,7 @@ footer a{text-decoration:none}
     <span class="lbl status"><i></i>Available for new projects</span>
     <span class="lbl"><span class="p">UX/UI designer</span> · Colombo, Sri Lanka</span>
   </div>
-  <p class="lede">I design 100% custom websites that <span class="sw" id="swap">tell your story.</span></p>
+  <p class="lede"><span class="fx">I design 100% custom websites that</span> <span class="sw" id="swap">tell your story.</span></p>
   <h1 class="name x" aria-label="Keerthiya Perera">
     <span class="row" data-split>KEERTHIYA</span>
     <span class="row" data-split>PERERA</span>

@@ -243,6 +243,8 @@ p{margin:0}
 .face::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(105deg,rgba(255,255,255,0) 20%,rgba(255,255,255,.55) 48%,rgba(255,255,255,0) 72%);opacity:var(--glint,0)}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--room);border:0;overflow:hidden;transform:rotateY(calc(var(--k)*var(--a))) translateZ(var(--r))}
 .face video,.face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+/* draw the face artwork at 2x and scale it down, so the browser rasterises it sharply even when the prism magnifies it */
+.prism>.face>video,.prism>.face>img{max-width:none;max-height:none;inset:auto;left:0;top:0;width:200%;height:200%;transform:scale(.5);transform-origin:0 0;will-change:transform}
 .face .tag{position:absolute;left:0;bottom:0;display:flex;gap:10px;padding:6px 10px;background:var(--ink);color:var(--bone);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 .face .tag span{color:var(--room-dim)}
 .face .shade{position:absolute;inset:0;background:#0F0F0E;opacity:var(--dim,0);pointer-events:none}
@@ -254,7 +256,7 @@ p{margin:0}
 .floor::after{content:"";position:absolute;left:8%;right:8%;top:-6%;height:46%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.75),rgba(0,0,0,0));}
 .pwrap{position:relative;display:grid}
 .pfog{position:absolute;left:calc(var(--w)*-1.35);width:calc(var(--w)*3.7);top:-40%;height:180%;pointer-events:none;background:radial-gradient(ellipse 50% 50% at 50% 55%,rgba(15,15,14,.97) 0%,rgba(15,15,14,.9) 45%,rgba(15,15,14,.55) 72%,rgba(15,15,14,0) 100%)}
-.face video,.face img{image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(0)}
+
 .feature .drag{animation:nudge 2.6s var(--ease) infinite}
 @keyframes nudge{0%,100%{transform:none}50%{transform:translateX(6px)}}
 @media (hover:none){.feature .hov{display:none}}
@@ -574,10 +576,11 @@ kb.innerHTML=h})();
       prism.appendChild(d);faces.push({el:d,p:i,kind:s[0],vid:d.querySelector('video')});
     });
   });
-  var rot=0,tilt=-6,vel=0,dragging=false,moved=0,lastX=0,lastY=0,target=null,auto=!reduce,inView=false,pFront=-1;
+  var lastKey='',rot=0,tilt=-6,vel=0,dragging=false,moved=0,lastX=0,lastY=0,target=null,auto=!reduce,inView=false,pFront=-1;
   function norm(a){return ((a%360)+360)%360}
   function frontIndex(){return Math.round(norm(-rot)/A)%N}
   function render(){
+    var key=rot.toFixed(3)+'|'+tilt.toFixed(3)+'|'+inView;if(key===lastKey)return;lastKey=key;
     pbox.style.transform='rotateX('+tilt+'deg)';prism.style.transform=prismRef.style.transform='rotateY('+rot+'deg)';fog.style.transform='rotateY('+(-rot)+'deg)';
     var fi=frontIndex();
     faces.forEach(function(f,k){var a=norm(k*A+rot);if(a>180)a-=360;var c=Math.cos(a*Math.PI/180);
@@ -595,7 +598,7 @@ kb.innerHTML=h})();
       if(target!==null){var d=target-rot;rot+=d*Math.min(1,dt*7);if(Math.abs(d)<.05){rot=target;target=null;idle=0}}
       else if(Math.abs(vel)>.2){rot+=vel*dt;vel*=Math.pow(.04,dt);if(Math.abs(vel)<=6){vel=0;snapTo(nearest())}}
       else if(auto&&inView){idle+=dt;if(idle>2.2){idle=0;snapTo(nearest()-A)}}
-      tilt+=(-6-tilt)*Math.min(1,dt*3);
+      tilt+=(-6-tilt)*Math.min(1,dt*3);if(Math.abs(tilt+6)<.01)tilt=-6;
     }
     render();requestAnimationFrame(tick)}
   render();requestAnimationFrame(tick);

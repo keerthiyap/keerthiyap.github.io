@@ -269,6 +269,16 @@ p{margin:0}
 .contact .lbl .p{color:var(--on-ox);opacity:.7}
 .big{margin:28px 0 0;font-size:clamp(46px,10.2vw,156px)}
 .big .row{display:block}
+.big .W{display:inline-block;white-space:nowrap}
+.big .L2{display:inline-block;transition:font-variation-settings .45s var(--ease),transform 1s var(--ease),opacity 1s var(--ease)}
+.big.pre .L2{transform:translateY(.55em) rotate(4deg);opacity:.12}
+.mail{transition:background .4s var(--ease)}
+.mail:hover{background:rgba(241,239,232,.08)}
+.mail button{transition:background .3s,color .3s}
+.mail button:hover{background:var(--ink);color:var(--on-ox)}
+.ctmarq{width:100vw;margin-left:calc(50% - 50vw);margin-top:80px;overflow:hidden;white-space:nowrap;pointer-events:none}
+.ctmarq .t{display:inline-block;animation:drift 48s linear infinite;font-family:var(--display);font-variation-settings:"wdth" 125;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(40px,7vw,104px);line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(241,239,232,.45)}
+.ctmarq .t i{font-style:normal;color:rgba(241,239,232,.45);-webkit-text-stroke:0;margin:0 .35em}
 .contact-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;margin-top:56px;align-items:end}
 .contact-row p{max-width:44ch;font-size:18px}
 .mail{display:flex;align-items:stretch;border:1.5px solid var(--on-ox)}
@@ -438,6 +448,7 @@ footer a{text-decoration:none}
       <p>Got a project in mind? Tell me about your business, your timeline and your budget, and I'll get back to you. Can't wait to hear from you!</p>
       <div class="mail"><span id="email">keerthiyap@gmail.com</span><button type="button" id="copy">Copy</button></div>
     </div>
+    <div class="ctmarq" aria-hidden="true"><div class="t">Available for new projects<i>✳</i>100% custom<i>✳</i>Colombo, Sri Lanka<i>✳</i>Available for new projects<i>✳</i>100% custom<i>✳</i>Colombo, Sri Lanka<i>✳</i></div></div>
     <footer class="lbl">
       <span>© 2026 Keerthiya Perera</span>
       <span>100% custom, like everything I make</span>
@@ -621,6 +632,19 @@ footer a{text-decoration:none}
   }
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
+
+  // contact headline: letters rise in once, then condense around the pointer
+  (function(){var h=document.getElementById('ct-h'),Ls=[];
+    h.querySelectorAll('.row').forEach(function(r){var txt=r.textContent;r.textContent='';txt.split(' ').forEach(function(w,wi){if(wi)r.appendChild(document.createTextNode(' '));
+      var W=document.createElement('span');W.className='W';W.setAttribute('aria-hidden','true');w.split('').forEach(function(c){var s=document.createElement('span');s.className='L2';s.textContent=c;s.style.transitionDelay='0s,'+(Ls.length*32)+'ms,'+(Ls.length*32)+'ms';W.appendChild(s);Ls.push(s)});r.appendChild(W)})});
+    if(reduce)return;
+    h.classList.add('pre');
+    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){h.classList.remove('pre');o.disconnect();setTimeout(function(){Ls.forEach(function(s){s.style.transitionDelay='0s'})},1800)}})},{threshold:.4}).observe(h);
+    if(!matchMedia('(hover:hover)').matches)return;
+    var sec=document.getElementById('contact');
+    sec.addEventListener('pointermove',function(e){Ls.forEach(function(s){var r=s.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-e.clientX,r.top+r.height/2-e.clientY),k=Math.max(0,1-d/260);s.style.fontVariationSettings='"wdth" '+(125-58*k).toFixed(1)})});
+    sec.addEventListener('pointerleave',function(){Ls.forEach(function(s){s.style.fontVariationSettings=''})});
+  })();
 
   // copy email
   var btn=document.getElementById('copy'),em=document.getElementById('email');

@@ -1797,9 +1797,9 @@ if (T) try { (function(){
   scene.background = new T.Color(STUDIO);
   const AZ = -4.2, archMats = [new T.MeshBasicMaterial({map: bdTex}), new T.MeshStandardMaterial({color: new T.Color('#D9B76A').convertSRGBToLinear(), metalness: .6, roughness: .35})];
   const back = new T.Mesh(new T.BufferGeometry(), archMats); back.position.set(0, 0, AZ); back.receiveShadow = true; scene.add(back);
-  const arch = {w: 7, h: 6};
+  const arch = {w: 7, h: 6, b: 0}; let frontZ = 2; // b: height of the clear band above the decor that holds a greeting or logo
   // greeting and logo are one print scaled to the arch: the lockup sits in a header band above the decor, never cropped
-  const isPrint = k => k === 'greet' || k === 'logo', bandFor = h => Math.min(2.6, Math.max(1.4, h * .3));
+  const isPrint = k => k === 'greet' || k === 'logo', bandFor = h => Math.min(3, Math.max(1.7, h * .36));
   const prC = document.createElement('canvas'), pr = prC.getContext('2d'); prC.width = prC.height = 16;
   let prTex = new T.CanvasTexture(prC); prTex.encoding = T.sRGBEncoding; prTex.anisotropy = 4;
   const drawPrint = () => {
@@ -1807,11 +1807,12 @@ if (T) try { (function(){
     if (prC.height !== H || prC.width !== W) { prC.width = W; prC.height = H; prTex.dispose(); prTex = new T.CanvasTexture(prC); prTex.encoding = T.sRGBEncoding; prTex.anisotropy = 4; archMats[0].map = prTex; archMats[0].needsUpdate = true; }
     prTex.repeat.set(1 / arch.w, 1 / arch.h); prTex.offset.set(.5, 0);
     pr.setTransform(1, 0, 0, 1, 0, 0); pr.globalAlpha = 1; pr.fillStyle = bgOf(k); pr.fillRect(0, 0, W, H);
-    const r = arch.w / 2, ry = Math.min(r, Math.max(1.2, arch.h * .4)), st = Math.max(.4, arch.h - ry), band = bandFor(arch.h / 1.3), yc = arch.h - band * .6;
-    const half = yc > st ? r * Math.sqrt(Math.max(0, 1 - ((yc - st) / ry) ** 2)) : r, maxW = 2 * half * .8 * u, maxH = band * .6 * u, cx = W / 2, cy = H - yc * u;
+    const r = arch.w / 2, ry = Math.min(r, Math.max(1.2, arch.h * .4)), st = Math.max(.4, arch.h - ry), band = arch.b || bandFor(arch.h / 1.3), yc = arch.h - band * .64, hh = band * .24, yt = yc + hh;
+    // the lockup sits in the middle of the clear band, and its top corners stay inside the curve of the arch
+    const half = yt > st ? r * Math.sqrt(Math.max(0, 1 - ((yt - st) / ry) ** 2)) : r, maxW = 2 * half * .78 * u, maxH = 2 * hh * u, cx = W / 2, cy = H - yc * u;
     pr.textBaseline = 'middle';
     if (k === 'greet') {
-      pr.font = "italic 400 100px Fraunces, Georgia, serif"; const m1 = pr.measureText('Season\u2019s ').width;
+      pr.font = "italic 400 100px Fraunces, Georgia, serif"; const m1 = pr.measureText('Season\u2019s').width + 55;
       pr.font = "400 100px Gloock, Georgia, serif"; const m2 = pr.measureText('Greetings').width;
       const fs = Math.min(maxH * .85, 100 * maxW / (m1 + m2)), x0 = cx - (m1 + m2) * fs / 200, tw = (m1 + m2) * fs / 100;
       // a light scatter of gold and cream stars, kept clear of the words
@@ -2346,9 +2347,9 @@ if (T) try { (function(){
     const cx = (Math.min(...pts.map(q => q[0])) + Math.max(...pts.map(q => q[0]))) / 2, cz = narrow ? 14 : 14.5, cy = 3.0;
     let hw = 0, top = 0;
     pts.forEach(([x, y, z]) => { const k = (cz - AZ) / Math.max(1, cz - z); hw = Math.max(hw, Math.abs(x - cx) * k); top = Math.max(top, cy + (y - cy) * k); });
-    const tw = 2 * hw * 1.12 + .8, th0 = top * 1.05 + .45, th = th0 + (isPrint(way) ? bandFor(th0) : 0); lastL = L;
-    if (G && !instant && !reduce) { G.killTweensOf(arch); G.killTweensOf(shift.position); G.to(arch, {w: tw, h: th, duration: 1.1, ease: 'expo.out', onUpdate: backGeo}); G.to(shift.position, {x: -cx, duration: 1.1, ease: 'expo.out'}); G.killTweensOf(camS); G.to(camS, Object.assign(camFor(tw, th), {duration: 1.1, ease: 'expo.out', onUpdate: camApply})); }
-    else { arch.w = tw; arch.h = th; backGeo(); shift.position.x = -cx; Object.assign(camS, camFor(tw, th)); camApply(); }
+    const th0 = top * 1.05 + .45, tb = isPrint(way) ? bandFor(th0) : 0, th = th0 + tb, tw = Math.max(2 * hw * 1.12 + .8, tb ? th * 1.08 : 0); // a printed arch is kept at least as wide as it is tall, so the lettering has room lastL = L; frontZ = Math.max(1.5, ...pts.map(q => q[2])) + .3;
+    if (G && !instant && !reduce) { G.killTweensOf(arch); G.killTweensOf(shift.position); G.to(arch, {w: tw, h: th, b: tb, duration: 1.1, ease: 'expo.out', onUpdate: backGeo}); G.to(shift.position, {x: -cx, duration: 1.1, ease: 'expo.out'}); G.killTweensOf(camS); G.to(camS, Object.assign(camFor(tw, th), {duration: 1.1, ease: 'expo.out', onUpdate: camApply})); }
+    else { arch.w = tw; arch.h = th; arch.b = tb; backGeo(); shift.position.x = -cx; Object.assign(camS, camFor(tw, th)); camApply(); }
   };
   let pending = null;
   const apply = instant => {
@@ -2366,9 +2367,16 @@ if (T) try { (function(){
   // the camera pulls back as the arch grows, so the whole arch always stays in frame
   const camS = {z: 14.5, y: 1.75}; let camW = 1, camH = 1, narrow = false, camDx = 0;
   const camApply = () => { cam.position.set(0, 3.0, camS.z); cam.lookAt(0, camS.y, 0); const dy = narrow ? camH * .06 : 0; if (camDx || dy) cam.setViewOffset(camW, camH, -camDx, -dy, camW, camH); else cam.clearViewOffset(); cam.updateProjectionMatrix(); };
+  // step the camera back until the whole arch and the floor in front of the decor sit inside the frame, so nothing is cropped
+  const P3 = new T.Vector3(), CP = new T.Vector3(), CQ = new T.Quaternion();
   const camFor = (tw, th) => {
-    const tv = Math.tan(cam.fov * Math.PI / 360), th2 = tv * cam.aspect, u = Math.max(.5, (camW - 2 * camDx) / camW);
-    return {z: Math.max(narrow ? 14 : 14.5, AZ + (tw / 2 + .5) / (th2 * u * .86), AZ + (th + .6) / (2 * tv * (narrow ? .78 : .9))), y: Math.max(narrow ? 1.7 : 1.75, th * (narrow ? .5 : .42))};
+    const y = Math.max(narrow ? 1.7 : 1.75, th * (narrow ? .5 : .44)), r = tw / 2, ry = Math.min(r, Math.max(1.2, th * .4)), st = Math.max(.4, th - ry);
+    const pts = [[-r, 0, AZ], [r, 0, AZ], [-r, st, AZ], [r, st, AZ], [0, th + .12, AZ], [-r * .7, st + ry * .7, AZ], [r * .7, st + ry * .7, AZ], [-r * .45, 0, frontZ], [r * .45, 0, frontZ]];
+    CP.copy(cam.position); CQ.copy(cam.quaternion); cam.updateProjectionMatrix();
+    let z = narrow ? 14 : 14.5;
+    for (; z < 90; z += .2) { cam.position.set(0, 3.0, z); cam.lookAt(0, y, 0); cam.updateMatrixWorld(); if (pts.every(([a, b, c]) => { P3.set(a, b, c).project(cam); return Math.abs(P3.x) < .86 && Math.abs(P3.y) < .88; })) break; }
+    cam.position.copy(CP); cam.quaternion.copy(CQ); cam.updateMatrixWorld();
+    return {z, y};
   };
   const layout = () => { const w = gCanvas.clientWidth, h = gCanvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w/h; camW = w; camH = h; narrow = w/h < 1.3; cam.fov = narrow ? 40 : 32; camDx = 0; Object.assign(camS, camFor(arch.w, arch.h)); camApply(); }; // the control panel sits beside the canvas on desktop and below it on phones, so the scene stays centred
   new ResizeObserver(layout).observe(gCanvas); layout();

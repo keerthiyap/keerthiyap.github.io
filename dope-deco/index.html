@@ -146,6 +146,18 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 @keyframes ctaShine{0%,60%{background-position:-150% 0}85%,100%{background-position:150% 0}}
 /* the other yellow calls to action get the same shine, with a pink pulse ring that shows on light and dark sections */
 .pill.yellow{position:relative;isolation:isolate}
+/* a call to action closing each section */
+.sec-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:clamp(48px,6vw,80px);grid-column:1/-1;width:100%}
+.sec-cta .pill{flex:none}
+section .wrap.sec-cta{display:flex;gap:14px 20px;position:static} /* section wraps can be grids; this row stays a simple line */
+.services .sec-cta .note,.reels .sec-cta .note{color:var(--snow)}
+.sec-cta .note{font:400 italic clamp(18px,1.6vw,22px)/1.3 var(--ital)}
+.sec-cta .note .sel{font:500 normal .8em/1 var(--sans);user-select:all}
+.sec-cta .arr{display:grid;place-items:center;width:28px;height:28px;margin-right:-8px;border-radius:50%;background:var(--ink);transition:transform .4s var(--ease)}
+.sec-cta .arr svg{width:14px;height:14px;fill:none;stroke:var(--yellow);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sec-cta .pill:hover .arr{transform:rotate(-45deg)}
+.sec-cta .pill.alt{background:var(--pink);color:var(--paper)} /* on the yellow Deal band */
+.sec-cta .pill.alt .arr{background:var(--paper)}.sec-cta .pill.alt .arr svg{stroke:var(--pink)}
 .pill.yellow::before{content:"";position:absolute;inset:0;border-radius:inherit;animation:ctaPulseP 2.8s var(--ease) infinite;z-index:-1;pointer-events:none}
 .pill.yellow::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.8) 50%,transparent 65%) -150% 0/250% 100% no-repeat;animation:ctaShine 4.5s ease-in-out infinite;pointer-events:none}
 .nav .pill.yellow::before{animation-delay:1.4s}
@@ -742,7 +754,7 @@ footer .legal img{width:34px;height:auto}
       <div class="hero-copy band">
         <h1 id="hero-h"><span class="mask"><span>Christmas,</span></span><span class="mask"><span><em>turnt</em> up.</span></span></h1>
         <div class="row">
-          <p>Joyful Christmas styling for homes, offices, retail and F&amp;B. We design it, install it and take it away, so you get the wow without the wrestling.</p>
+          <p>Joyful Christmas styling for homes, offices, retail and F&amp;B. We design it, install it and take it away, so you get the wow without the hassle.</p>
           <div class="ctas">
             <a class="pill hero-cta magnetic" href="#contact" data-cursor="Book"><span class="t">Get started</span><span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a>
             <a class="pill line magnetic" href="#reels" data-cursor="Look">See our work</a>
@@ -768,6 +780,7 @@ footer .legal img{width:34px;height:auto}
       </div>
       <span class="flip-hint label">Tap a card to flip it</span>
     </div>
+    <div class="wrap sec-cta"><span class="note">Like the idea?</span><a class="pill yellow magnetic" href="#contact" data-cursor="Brief">Send us a brief<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
   <section class="services band" id="services" data-bg="#8B2949" data-ch="02" data-chn="What we style" aria-labelledby="services-h">
@@ -804,6 +817,7 @@ footer .legal img{width:34px;height:auto}
         </div>
       </div>
     </div>
+    <div class="wrap sec-cta"><span class="note">Home, office, shop or hotel?</span><a class="pill yellow magnetic" href="#contact" data-cursor="Book">Book a date<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
   <section class="grove band" id="grove" data-bg="#F4F1EC" data-ch="03" data-chn="Signature setups" aria-labelledby="grove-h">
@@ -871,6 +885,7 @@ footer .legal img{width:34px;height:auto}
         </div>
       </div>
     </div>
+    <div class="wrap sec-cta"><span class="note">Seen one you like?</span><a class="pill yellow magnetic" href="#contact" data-cursor="Book">Book a signature setup<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
   <section class="reels band" id="reels" data-bg="#1A1A1A" data-ch="04" data-chn="In motion" aria-labelledby="reels-h">
@@ -894,6 +909,7 @@ footer .legal img{width:34px;height:auto}
       <span class="rbar" aria-hidden="true"><i id="reelBar"></i></span>
       <button type="button" class="rn" id="reelNext" aria-label="Next clips" data-cursor="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
+    <div class="wrap sec-cta"><span class="note">Want yours in the next one?</span><a class="pill yellow magnetic" href="#contact" data-cursor="Brief">Send us a brief<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
   <section class="process band" id="how" data-bg="#1A1A1A" data-ch="05" data-chn="How it works" aria-labelledby="how-h">
@@ -937,6 +953,7 @@ footer .legal img{width:34px;height:auto}
         <li><img src="img/s/box-bow.webp" alt=""><b>Take-down</b><span>Cleared and packed away after the season</span></li>
       </ul>
     </div>
+    <div class="wrap sec-cta"><span class="note">Nothing to buy, nothing to store.</span><a class="pill yellow magnetic alt" href="#contact" data-cursor="Book">Book us<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
   <section class="faq band" id="faq" data-bg="#F4F1EC" data-ch="07" data-chn="Good to know" aria-labelledby="faq-h">
@@ -955,6 +972,7 @@ footer .legal img{width:34px;height:auto}
         <details><summary>Can you match our brand colours?<i></i></summary><div class="ans"><p>Yes, we can incorporate your brand colours. Send us your palette and we'll design the whole scheme around it.</p></div></details>
       </div>
     </div>
+    <div class="wrap sec-cta"><span class="note">Still wondering? Email <b class="sel">hello@dope-deco.com</b> or</span><a class="pill yellow magnetic" href="#contact" data-cursor="Ask">Contact us<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
   <section class="contact band" id="contact" data-bg="#FF66A0" data-ch="08" data-chn="Book" aria-labelledby="contact-h">

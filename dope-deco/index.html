@@ -84,7 +84,7 @@ button{font:inherit;color:inherit}
 .pill.light{background:var(--snow);color:var(--ink);box-shadow:none}
 .pill.yellow{background:var(--yellow);color:var(--ink)}
 .pill.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);transition:background .35s var(--ease),color .35s var(--ease)}
-.pill.line:hover{background:var(--ink);color:var(--snow)}
+.pill.line:hover{background:var(--pink);border-color:var(--pink);color:var(--paper)}
 .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--pink)}
 .pill .burger{display:grid;gap:4px}.pill .burger i{display:block;width:16px;height:1.5px;background:currentColor;transition:transform .4s var(--ease)}
 body.menu-open .pill .burger i:first-child{transform:translateY(2.75px) rotate(45deg)}
@@ -244,7 +244,7 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 .setups{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:clamp(18px,2vw,26px)}
 .setups button{display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:10px 18px 10px 10px;font:500 14px/1 var(--sans);color:var(--ink);cursor:pointer;transition:background .3s,color .3s}
 .setups button i{width:24px;height:24px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
-.setups button:hover,.setups button[aria-pressed="true"]{background:var(--ink);color:var(--snow)}
+.setups button:hover,.setups button[aria-pressed="true"]{background:var(--pink);color:var(--paper)}
 @media (max-width:560px){.setups{gap:8px}.setups button{padding:8px 14px 8px 8px;font-size:13px}.setups button i{width:20px;height:20px}}
 .stage{position:relative;border-radius:32px;overflow:hidden;height:min(78vh,760px);min-height:460px;background:#FFE3EE;transition:background .6s}
 #groveGL{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y}
@@ -258,7 +258,7 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 .sw:hover{transform:scale(1.08)}
 .seg{display:flex;background:var(--snow);border-radius:999px;padding:4px}
 .seg button{border:0;background:transparent;border-radius:999px;padding:10px 16px;font:500 14px/1 var(--sans);cursor:pointer;transition:background .3s,color .3s}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--snow)}
+.seg button[aria-pressed="true"]{background:var(--pink);color:var(--paper)}
 .seg.bd button{padding:10px 12px;font-size:13px}
 .glass.ctrls{width:max-content;max-width:min(470px,100%);gap:8px}
 .glass.ctrls .seg{width:100%}
@@ -285,7 +285,7 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 .rl-thumbs{display:flex;gap:14px;flex-wrap:wrap}
 .rl-sets{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;margin:26px 0 0;padding:5px;border-radius:22px;background:rgba(255,255,255,.6);max-width:100%}
 .rl-sets button{border:0;border-radius:999px;padding:10px 16px;text-align:left;background:none;font:500 13px/1 var(--sans);color:var(--ink);cursor:pointer;white-space:nowrap;transition:background .3s,color .3s}
-.rl-sets button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.rl-sets button[aria-pressed="true"]{background:var(--pink);color:var(--paper)}
 .rl-sets button:disabled{opacity:.35;cursor:default}
 @media (max-width:560px){.rl-sets button{padding:9px 10px;font-size:12px}}
 .rl-copy .rl-cta{font:italic 600 clamp(17px,1.5vw,20px)/1.4 var(--sans);color:var(--ink);max-width:34ch;margin:30px 0 0}
@@ -370,10 +370,10 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 .work .lede{max-width:36ch;margin:18px 0 0;color:var(--ink-2)}
 .filters{display:flex;flex-wrap:wrap;gap:8px}
 .filters button{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;font:500 14px/1 var(--sans);color:var(--ink);transition:background .3s,color .3s,border-color .3s}
-.filters button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--snow)}
+.filters button[aria-pressed="true"]{background:var(--pink);border-color:var(--pink);color:var(--paper)}
 .cal-all{display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:12px 18px 12px 12px;font:500 14px/1 var(--sans);color:var(--ink);transition:background .3s,color .3s}
 .cal-all .k{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF3C4,#D9B66A 45%,#9C7A35);box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.cal-all:hover,.cal-all[aria-pressed="true"]{background:var(--ink);color:var(--snow)}
+.cal-all:hover,.cal-all[aria-pressed="true"]{background:var(--pink);color:var(--paper)}
 .cal-wrap{position:relative}
 .cal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(150px,15vw,230px);grid-auto-flow:dense;gap:clamp(10px,1.2vw,16px);padding:clamp(10px,1.2vw,16px);border-radius:clamp(22px,2.4vw,34px);background:radial-gradient(circle at 1px 1px,rgba(241,217,154,.35) 1px,transparent 1.6px) 0 0/18px 18px,linear-gradient(160deg,#9B2F52,#6E1F3A);box-shadow:0 50px 80px -40px rgba(110,31,58,.6),inset 0 0 0 1px rgba(255,255,255,.08)}
 .dr{position:relative;perspective:2600px;border-radius:14px;background:#2A0E18;box-shadow:inset 0 6px 18px rgba(0,0,0,.55)}
@@ -570,7 +570,7 @@ textarea{resize:vertical;min-height:100px}
 .chips input{position:absolute;opacity:0;width:1px;height:1px}
 .chips span{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:999px;padding:10px 14px;font-size:14px;cursor:pointer;background:var(--paper);transition:background .25s,color .25s,border-color .25s}
 .chips span i{width:12px;height:12px;border-radius:50%;background:var(--c)}
-.chips input:checked + span{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+.chips input:checked + span{background:var(--pink);color:var(--paper);border-color:var(--pink)}
 .chips input:focus-visible + span{outline:3px solid var(--ink);outline-offset:2px}
 .note{font-size:13px;color:var(--ink-2)}
 .success{display:grid;gap:14px}
@@ -620,7 +620,7 @@ form.wiz{padding:clamp(24px,4vw,56px);display:grid;gap:24px;min-width:0;min-heig
 .advent span{display:grid;place-items:center;align-content:center;gap:8px;text-align:center;aspect-ratio:1;background:var(--paper);border:1.5px solid var(--line);border-radius:20px;padding:10px;transition:background .3s,color .3s,border-color .3s,transform .4s var(--ease)}
 .advent b{font:400 clamp(28px,2.8vw,40px)/1 var(--display)}
 .advent small{font:500 11px/1.2 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
-.advent input:checked + span{background:var(--ink);color:var(--snow);border-color:var(--ink);transform:rotate(-3deg)}
+.advent input:checked + span{background:var(--pink);color:var(--paper);border-color:var(--pink);transform:rotate(-3deg)}
 .advent input:checked + span small{color:#cfc8bf}
 .baubles{display:flex;flex-wrap:wrap;gap:16px 18px}
 .baubles span{display:grid;justify-items:center;gap:10px;font:500 13px/1 var(--sans)}
@@ -879,7 +879,6 @@ footer .legal img{width:34px;height:auto}
         <figure class="reel dr w-ink" style="--r:2deg"><video src="img/bank/video-entrance-lit-trees-reindeer.mp4" poster="img/bank/video-entrance-lit-trees-reindeer-poster.jpg" muted loop playsinline preload="none" aria-label="Lit trees and reindeer framing an entrance"></video><figcaption>Grand entrance</figcaption><button type="button" class="door" data-cursor="Open" aria-expanded="false" aria-label="Open door 8"><span class="f"><span class="ny">Dec</span><span class="n">8</span><img class="sk" src="img/s/star.webp" alt="" style="--r:10deg"></span><span class="bk"></span></button><button type="button" class="shut" tabindex="-1" data-cursor="Close" aria-label="Close door 8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></figure>
         <figure class="reel dr w-stripe" style="--r:-1.5deg"><video src="img/bank/video-red-gift-tree-staircase.mp4" poster="img/bank/video-red-gift-tree-staircase-poster.jpg" muted loop playsinline preload="none" aria-label="Tree with red gifts at the foot of a staircase"></video><figcaption>Red parcels</figcaption><button type="button" class="door" data-cursor="Open" aria-expanded="false" aria-label="Open door 24"><span class="f"><span class="ny">Dec</span><span class="n">24</span><img class="sk" src="img/s/bauble-red.webp" alt="" style="--r:-10deg"></span><span class="bk"></span></button><button type="button" class="shut" tabindex="-1" data-cursor="Close" aria-label="Close door 24"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></figure>
         <figure class="reel dr w-grape" style="--r:1deg"><video src="img/bank/video-gold-cone-trees-red-baubles.mp4" poster="img/bank/video-gold-cone-trees-red-baubles-poster.jpg" muted loop playsinline preload="none" aria-label="Gold cone trees with red baubles"></video><figcaption>Gold & red</figcaption><button type="button" class="door" data-cursor="Open" aria-expanded="false" aria-label="Open door 11"><span class="f"><span class="ny">Dec</span><span class="n">11</span></span><span class="bk"></span></button><button type="button" class="shut" tabindex="-1" data-cursor="Close" aria-label="Close door 11"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></figure>
-        <figure class="reel dr w-dots" style="--r:-2deg"><video src="img/bank/video-boardroom-brush-trees-hd.mp4" poster="img/bank/video-boardroom-brush-trees-hd-poster.jpg" muted loop playsinline preload="none" aria-label="Gold bottle-brush trees and a twinkling garland on a boardroom table"></video><figcaption>Boardroom glow</figcaption><button type="button" class="door" data-cursor="Open" aria-expanded="false" aria-label="Open door 6"><span class="f"><span class="ny">Dec</span><span class="n">6</span></span><span class="bk"></span></button><button type="button" class="shut" tabindex="-1" data-cursor="Close" aria-label="Close door 6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></figure>
         <figure class="reel dr w-snow" style="--r:1.5deg"><video src="img/bank/video-flocked-tree-gold-gifts-glow.mp4" poster="img/bank/video-flocked-tree-gold-gifts-glow-poster.jpg" muted loop playsinline preload="none" aria-label="Flocked tree glowing over gold gift boxes"></video><figcaption>Golden glow</figcaption><button type="button" class="door" data-cursor="Open" aria-expanded="false" aria-label="Open door 18"><span class="f"><span class="ny">Dec</span><span class="n">18</span><img class="sk" src="img/s/nutcracker.webp" alt="" style="--r:8deg"></span><span class="bk"></span></button><button type="button" class="shut" tabindex="-1" data-cursor="Close" aria-label="Close door 18"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></figure>
         <figure class="reel dr w-ging" style="--r:-1deg"><video src="img/bank/video-tree-gold-poinsettias-reindeer.mp4" poster="img/bank/video-tree-gold-poinsettias-reindeer-poster.jpg" muted loop playsinline preload="none" aria-label="Green tree with cream poinsettias and a copper reindeer"></video><figcaption>Poinsettia gold</figcaption><button type="button" class="door" data-cursor="Open" aria-expanded="false" aria-label="Open door 1"><span class="f"><span class="ny">Dec</span><span class="n">1</span></span><span class="bk"></span></button><button type="button" class="shut" tabindex="-1" data-cursor="Close" aria-label="Close door 1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></figure>
     </div>
@@ -1593,8 +1592,28 @@ if (T) try { (function(){
     const slot = SPREAD[i], xn = -1 + 2 * (slot + .5) / N + (rnd() - .5) * .6 / N, centre = Math.abs(xn) < .38;
     const tier = (TIER[slot % 8] + .5) / 8, jit = (rnd() - .5) * .07;
     return {pivot, wire, body, xn, yn: centre ? -.3 + tier * .7 + jit : -.64 + tier * 1.22 + jit, z: ZL[slot % 4] + (rnd() - .5) * .16, dir: xn < 0 ? -1 : 1,
-      a: (rnd() - .5) * .1, w: 0, xp: null, xpp: null, spin: (rnd() - .5) * .012, ph: rnd() * 6.28, delay: rnd() * .5, narrowKeep: slot % 2 === 0};
+      a: (rnd() - .5) * .1, w: 0, xp: null, xpp: null, spin: (rnd() - .5) * .012, ph: rnd() * 6.28, delay: rnd() * .5, narrowKeep: slot % 2 === 0,
+      rad: new T.Box3().setFromObject(body).getSize(new T.Vector3()).length() * .36};
   });
+  orns.forEach(o => { o.xn0 = o.xn; o.yn0 = o.yn; });
+  // nudge pieces apart where they would overlap on this screen size, mostly up or down so the left-to-right spread stays
+  const relax = () => {
+    const sc = narrow ? .78 : 1, hw = halfW / sc, hh = halfH / sc, vis = orns.filter(o => o.pivot.visible);
+    vis.forEach(o => { o.xn = o.xn0; o.yn = o.yn0; o.k = 14 / (14 - o.z); });
+    for (let it = 0; it < 80; it++) {
+      let moved = false;
+      for (let i = 0; i < vis.length; i++) for (let j = i + 1; j < vis.length; j++) {
+        const A = vis[i], B = vis[j], ax = A.xn * hw * 1.02 * A.k, ay = (A.yn * hh * .92 - A.rad) * A.k, bx = B.xn * hw * 1.02 * B.k, by = (B.yn * hh * .92 - B.rad) * B.k;
+        let dx = bx - ax, dy = by - ay; const d = Math.hypot(dx, dy) || .001, need = (A.rad * A.k + B.rad * B.k) * 1.22;
+        if (d >= need) continue; moved = true;
+        const push = (need - d) / 2; if (Math.abs(dy) < .05) dy = (i + j) % 2 ? .05 : -.05; const n = Math.hypot(dx * .35, dy);
+        const px = dx * .35 / n * push, py = dy / n * push;
+        A.xn -= px / (hw * 1.02 * A.k); B.xn += px / (hw * 1.02 * B.k); A.yn -= py / (hh * .92 * A.k); B.yn += py / (hh * .92 * B.k);
+        [A, B].forEach(o => { o.yn = Math.max(-.7, Math.min(.66, o.yn)); o.xn = o.dir * Math.max(.02, Math.min(.98, o.dir * o.xn)); });
+      }
+      if (!moved) break;
+    }
+  };
 
   let halfW = 5, halfH = 3.75, narrow = false, visible = true, t = 0, intro = reduce ? 1 : 0, pS = heroP;
   const layout = () => {
@@ -1602,7 +1621,7 @@ if (T) try { (function(){
     renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix();
     halfH = cam.position.z * Math.tan(FOV / 2 * Math.PI / 180); halfW = halfH * cam.aspect; narrow = w < 760;
     world.scale.setScalar(narrow ? .78 : 1);
-    orns.forEach(o => o.pivot.visible = !narrow || o.narrowKeep);
+    orns.forEach(o => o.pivot.visible = !narrow || o.narrowKeep); relax();
   };
 
   /* pine garland strung across the top, drawn flat like the brand's pine illustrations: every ornament hangs from it */

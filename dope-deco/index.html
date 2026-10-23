@@ -1818,7 +1818,7 @@ if (T) try { (function(){
   const back = new T.Mesh(new T.BufferGeometry(), archMats); back.position.set(0, 0, AZ); back.receiveShadow = true; scene.add(back);
   const arch = {w: 7, h: 6, b: 0}; let frontZ = 2; // b: height of the clear band above the decor that holds a greeting or logo
   // greeting and logo are one print scaled to the arch: the lockup sits in a header band above the decor, never cropped
-  const isPrint = k => k === 'greet' || k === 'logo', bandFor = h => Math.min(3, Math.max(1.7, h * .36));
+  const isPrint = k => k === 'greet' || k === 'logo', bandFor = h => Math.min(3.8, Math.max(2.4, h * .46)); // tall enough that the lettering clears the decor even as it turns
   const prC = document.createElement('canvas'), pr = prC.getContext('2d'); prC.width = prC.height = 16;
   let prTex = new T.CanvasTexture(prC); prTex.encoding = T.sRGBEncoding; prTex.anisotropy = 4;
   const drawPrint = () => {
@@ -1826,7 +1826,7 @@ if (T) try { (function(){
     if (prC.height !== H || prC.width !== W) { prC.width = W; prC.height = H; prTex.dispose(); prTex = new T.CanvasTexture(prC); prTex.encoding = T.sRGBEncoding; prTex.anisotropy = 4; archMats[0].map = prTex; archMats[0].needsUpdate = true; }
     prTex.repeat.set(1 / arch.w, 1 / arch.h); prTex.offset.set(.5, 0);
     pr.setTransform(1, 0, 0, 1, 0, 0); pr.globalAlpha = 1; pr.fillStyle = bgOf(k); pr.fillRect(0, 0, W, H);
-    const r = arch.w / 2, ry = Math.min(r, Math.max(1.2, arch.h * .4)), st = Math.max(.4, arch.h - ry), band = arch.b || bandFor(arch.h / 1.3), yc = arch.h - band * .64, hh = band * .24, yt = yc + hh;
+    const r = arch.w / 2, ry = Math.min(r, Math.max(1.2, arch.h * .4)), st = Math.max(.4, arch.h - ry), band = arch.b || bandFor(arch.h / 1.3), yc = arch.h - band * .55, hh = band * .2, yt = yc + hh;
     // the lockup sits in the middle of the clear band, and its top corners stay inside the curve of the arch
     const half = yt > st ? r * Math.sqrt(Math.max(0, 1 - ((yt - st) / ry) ** 2)) : r, maxW = 2 * half * .78 * u, maxH = 2 * hh * u, cx = W / 2, cy = H - yc * u;
     pr.textBaseline = 'middle';

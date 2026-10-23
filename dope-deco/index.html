@@ -144,7 +144,13 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 .pill.hero-cta::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%) -150% 0/250% 100% no-repeat;animation:ctaShine 4.5s ease-in-out infinite;pointer-events:none}
 @keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(255,240,80,.75)}70%,100%{box-shadow:0 0 0 18px rgba(255,240,80,0)}}
 @keyframes ctaShine{0%,60%{background-position:-150% 0}85%,100%{background-position:150% 0}}
-@media (prefers-reduced-motion:reduce){.pill.hero-cta::before,.pill.hero-cta::after{animation:none}}
+/* the other yellow calls to action get the same shine, with a pink pulse ring that shows on light and dark sections */
+.pill.yellow{position:relative;isolation:isolate}
+.pill.yellow::before{content:"";position:absolute;inset:0;border-radius:inherit;animation:ctaPulseP 2.8s var(--ease) infinite;z-index:-1;pointer-events:none}
+.pill.yellow::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.8) 50%,transparent 65%) -150% 0/250% 100% no-repeat;animation:ctaShine 4.5s ease-in-out infinite;pointer-events:none}
+.nav .pill.yellow::before{animation-delay:1.4s}
+@keyframes ctaPulseP{0%{box-shadow:0 0 0 0 rgba(255,102,160,.7)}70%,100%{box-shadow:0 0 0 14px rgba(255,102,160,0)}}
+@media (prefers-reduced-motion:reduce){.pill.hero-cta::before,.pill.hero-cta::after,.pill.yellow::before,.pill.yellow::after{animation:none}}
 .hero .row .ctas .pill.line{padding:18px 26px;font-size:15px}
 .hero .cue{position:absolute;left:50%;bottom:max(26px, env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:3;display:none;flex-direction:column;align-items:center;gap:12px;pointer-events:none;white-space:nowrap}
 .anim .hero .cue{display:flex}
@@ -265,6 +271,7 @@ body.menu-open .menu{clip-path:circle(150% at calc(100% - 60px) 40px);visibility
 .seg.bd{justify-content:space-between}
 .seg button:disabled{opacity:.35;cursor:not-allowed}
 .glass.ctrls .label + .seg{margin-bottom:6px}
+.glass.ctrls .seg + .label{margin-top:14px} /* a little air between Setup, Backdrop and Options */
 .glass.ctrls .seg:last-child{margin-bottom:0}
 .seg.st{display:grid;grid-template-columns:1fr 1fr;border-radius:20px;gap:2px}
 .seg.st button{display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;font-size:13px;text-align:left;white-space:nowrap}
@@ -849,7 +856,7 @@ footer .legal img{width:34px;height:auto}
             <button type="button" data-set="white" aria-pressed="false">Wintry Christmas</button>
           </div>
           <p id="rlText">We drew the Gilded Grove for Exclusive Lines, then built it between the fragrance counters. Drag the handle to compare.</p>
-          <div class="rl-thumbs" id="rlThumbs" role="group" aria-label="Choose a photo of the install">
+          <div class="rl-thumbs" id="rlThumbs" hidden role="group" aria-label="Choose a photo of the install">
             <button type="button" aria-pressed="true" data-vid="img/bank/video-gilded-grove-walkaround-hd2.mp4" data-alt="Walking around the mirror-gold trees on the shop floor"><img src="img/bank/video-gilded-grove-walkaround-hd2-poster.jpg" alt="" loading="lazy"><em class="play" aria-hidden="true"></em><span>Walkaround</span></button>
           </div>
           <p class="rl-cta">Book one of our pre-designed signature setups, or have us design a custom setup just for you.</p>
@@ -1042,7 +1049,7 @@ footer .legal img{width:34px;height:auto}
 <footer class="band" data-bg="#1A1A1A">
   <div class="wrap">
     <div class="end">
-      <span class="label">The end, until next Christmas</span>
+      <span class="label">Make this Christmas the one they remember</span>
       <p>Deck the halls in a <em>better mood.</em></p>
       <a class="pill yellow magnetic" href="#contact" data-cursor="Book"><span class="dot"></span>Get started</a>
     </div>

@@ -1367,7 +1367,7 @@ form.addEventListener('submit', e => {
   const bn = !nm.value.trim(), be = !/^\S+@\S+\.\S+$/.test(em.value.trim()); setErr(nm, bn); setErr(em, be);
   if (bn || be) { (bn ? nm : em).focus(); return; }
   const fd = new FormData(form), send = document.getElementById('wzSend'), note = send.parentNode.querySelector('.note');
-  const out = new FormData(); out.append('_subject', `New mini design brief from ${nm.value.trim()}`); out.append('_template', 'table'); out.append('_replyto', em.value.trim());
+  const out = new FormData(); out.append('_subject', `New mini design brief from ${nm.value.trim()}`); out.append('_template', 'table'); out.append('_replyto', em.value.trim()); out.append('_autoresponse', "This is an automated response. Please do not reply to this email.\n\nHi there,\n\nThank you for sending your mini design brief to Dope Deco. It has reached our inbox and we'll read it properly.\n\nWe'll get back to you soon, usually within two working days, to talk through your space, dates and budget.\n\nInstall dates are first come, first served. If your date is close, give us a call on 0777 433 874.\n\nWant to add more photos or details? Email us at hello@dope-deco.com.\n\nWarm wishes,\nThe Dope Deco team\nChristmas, turnt up.\n\nwww.dope-deco.com \u00b7 @dopedeco\nDope Deco is a brand of Viral Cube (Pvt) Ltd, Sri Lanka.");
   for (const [k, v] of fd) if (k !== 'files') out.append(k, v);
   [...fl.files].forEach(f => out.append('attachment', f));
   send.disabled = true; note.textContent = 'Sending your brief…'; bpop('sending');

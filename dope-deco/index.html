@@ -199,6 +199,9 @@ section .wrap.sec-cta{display:flex;gap:14px 20px;position:static} /* section wra
 .eq .op{font-family:var(--sans);font-weight:300;font-size:.7em}
 .eq .res{flex-basis:100%;display:flex;flex-wrap:wrap;column-gap:.2em;align-items:baseline}
 .eq .hl{background:var(--pink);border-radius:.16em;padding:0 .14em .06em;line-height:1;display:inline-block;transform:rotate(-1.5deg)}
+.about-yrs{display:flex;align-items:center;gap:14px;margin:26px 0 0}
+.about-yrs b{font:400 clamp(44px,4.4vw,64px)/1 var(--display);color:var(--ink)}
+.about-yrs span{font:500 clamp(14px,1.1vw,16px)/1.35 var(--sans);color:var(--ink);letter-spacing:.01em}
 .about-lede{max-width:32ch;font:400 clamp(18px,1.6vw,22px)/1.5 var(--sans);margin:34px 0 0;color:var(--ink-2)}
 @media (min-width:700px){.about-lede{text-align:justify;text-align-last:left;font-size:clamp(20px,1.75vw,25px)}}
 .moods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,26px);margin-top:clamp(60px,8vw,100px);perspective:1400px}
@@ -222,7 +225,7 @@ section .wrap.sec-cta{display:flex;gap:14px 20px;position:static} /* section wra
 .services .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(36px,5vw,64px)}
 .services .label{display:block;margin-bottom:22px;color:#F7C9D8}
 .services h2{font-size:clamp(48px,7vw,110px);line-height:.95}
-.services h2 em{font:300 italic 1em/1 var(--ital);color:var(--pink)}
+.services h2 em{font:300 italic 1em/1 var(--ital);color:var(--yellow)}
 .services .head p{max-width:34ch;color:var(--snow);margin:0;font:500 clamp(18px,1.5vw,22px)/1.45 var(--sans)}
 .rail{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--gold),#F1D99A 50%,var(--gold));box-shadow:0 3px 0 rgba(0,0,0,.18);margin-inline:-4%}
 .tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,6vw,110px);padding-inline:clamp(0px,4vw,70px)}
@@ -723,6 +726,35 @@ footer .legal img{width:34px;height:auto}
 .bpop .ic.ok{background:var(--mint)}.bpop .ic.no{background:var(--pink);color:var(--paper)}
 @media (prefers-reduced-motion:reduce){.bpop .spin{animation-duration:3s}}
 .success:focus,.success:focus-visible{outline:none}
+
+/* founder */
+.founder{padding-block:clamp(120px,14vw,200px);overflow:hidden;position:relative;isolation:isolate;color:var(--snow)}
+.founder::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 28px,transparent 28px 56px),repeating-linear-gradient(0deg,rgba(255,255,255,.045) 0 28px,transparent 28px 56px)}
+.founder .wrap{position:relative;z-index:1}
+.founder .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(40px,7vw,120px);align-items:center}
+.founder .label{display:block;margin-bottom:22px;color:#F7C9D8}
+.fd-art{position:relative;max-width:440px;width:100%;justify-self:center}
+.fd-arch{position:relative;aspect-ratio:4/5;border-radius:999px 999px 34px 34px;border:12px solid var(--paper);overflow:hidden;background:var(--pink);background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 34px,transparent 34px 68px),repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0 34px,transparent 34px 68px);box-shadow:0 40px 80px -40px rgba(40,0,60,.55);display:grid;place-items:center}
+.fd-arch img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fd-mono{font:400 clamp(110px,14vw,190px)/1 var(--display);color:var(--paper);letter-spacing:-.04em;text-shadow:0 10px 30px rgba(139,41,73,.25)}
+.fd-art .stk{position:absolute;filter:drop-shadow(0 12px 14px rgba(0,0,0,.2));pointer-events:none}
+.fd-art .s1{width:clamp(80px,9vw,120px);top:-4%;right:-8%;transform:rotate(12deg)}
+.fd-art .s2{width:clamp(80px,8vw,110px);bottom:6%;left:-12%;transform:rotate(-10deg)}
+.fd-art .s3{width:clamp(80px,8vw,116px);bottom:-6%;right:2%;transform:rotate(8deg)}
+.founder h2{font-size:clamp(48px,6.2vw,96px);line-height:.95}
+.founder h2 em{font:300 italic 1em/1 var(--ital);color:var(--paper)}
+.fd-role{display:inline-block;margin-top:22px;padding:10px 18px;border-radius:999px;background:var(--yellow);color:var(--ink);font:600 13px/1 var(--sans);letter-spacing:.06em}
+.fd-copy{max-width:52ch;margin-top:30px;display:grid;gap:18px}
+.fd-copy p{margin:0;font:400 clamp(16px,1.25vw,19px)/1.65 var(--sans);color:var(--snow)}
+.fd-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;padding:0;list-style:none}
+.fd-tags li{padding:10px 16px;border-radius:999px;background:var(--pink);font:500 14px/1.2 var(--sans);color:var(--paper)}
+.fd-tags li b{font-weight:600;color:var(--paper)}
+.founder .sec-cta{justify-content:flex-start;text-align:left}
+.fd-rv{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.fd-rv.in{opacity:1;transform:none}
+.fd-art.fd-rv{transform:translateY(60px) rotate(-3deg)}.fd-art.fd-rv.in{transform:rotate(-2deg)}
+@media (prefers-reduced-motion:reduce){.fd-rv{opacity:1;transform:none;transition:none}}
+@media (max-width:860px){.founder .wrap{grid-template-columns:1fr}.fd-art{max-width:320px}}
 </style>
 
 <div class="loader" id="loader" aria-hidden="true">
@@ -781,6 +813,7 @@ footer .legal img{width:34px;height:auto}
       <span class="label">01 &middot; About Dope Deco</span>
       <h2 id="about-h" class="eq"><span class="t1">Dopamine</span><span class="op t2">+</span><em class="t3">decoration</em><span class="res"><span class="op">=</span><span class="hl">Dope Deco</span></span></h2>
       <p class="about-lede">Christmas styling that gives you a jolt of joy the moment you walk in. Never boring.</p>
+      <p class="about-yrs"><b>5+</b><span>years of styling Christmas<br>across Sri Lanka</span></p>
       <div class="moods">
         <button class="mood" type="button" aria-pressed="false" style="--c:var(--pink);--r:-4deg"><span class="in"><span class="face front"><img class="stk" src="img/s/star.webp" alt=""><b>Joyful</b><small>Colour first</small></span><span class="face back"><img src="img/gifts.jpg" alt="Gifts wrapped in bright paper under a tree" loading="lazy"></span></span></button>
         <button class="mood" type="button" aria-pressed="false" style="--c:var(--yellow);--r:3deg"><span class="in"><span class="face front"><img class="stk" src="img/s/sunburst.webp" alt=""><b>Confident</b><small>Bold statements</small></span><span class="face back"><img src="img/bank/photo-nutcracker-gold-brush-tree.webp" alt="Gold glitter bottle-brush tree with a nutcracker drummer behind it" loading="lazy"></span></span></button>
@@ -965,10 +998,31 @@ footer .legal img{width:34px;height:auto}
     <div class="wrap sec-cta"><span class="note">Nothing to buy, nothing to store.</span><a class="pill yellow magnetic alt" href="#contact" data-cursor="Book">Book us<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div>
   </section>
 
-  <section class="faq band" id="faq" data-bg="#F4F1EC" data-ch="07" data-chn="Good to know" aria-labelledby="faq-h">
+  <section class="founder band" id="founder" data-bg="#8B2949" data-ch="07" data-chn="The founder" aria-labelledby="founder-h">
+    <div class="wrap">
+      <div class="fd-art fd-rv">
+        <div class="fd-arch"><img class="photo" src="img/founder.webp" alt="Keerthiya Perera, Founder and Creative Director of Dope Deco" width="1000" height="1250" loading="lazy"></div>
+        <img class="stk s1" src="img/s/star.webp" alt="">
+        <img class="stk s2" src="img/s/gift-red.webp" alt="">
+        <img class="stk s3" src="img/s/snowflake-chunky.webp" alt="">
+      </div>
+      <div class="fd-text fd-rv">
+        <span class="label">07 &middot; Meet the founder</span>
+        <h2 id="founder-h">Keerthiya <em>Perera</em></h2>
+        <span class="fd-role">Founder &amp; Creative Director</span>
+        <div class="fd-copy">
+          <p>Keerthiya started Dope Deco to bring together two things she loves: design and Christmas. For her, it&rsquo;s the most beautiful season of the year, and she wants every space she styles to carry that spirit and leave people feeling joyful.</p>
+          <p>She holds an Honours degree in Interior Design from the University of Northumbria and has worked across floral design and web design. Whatever the medium, she&rsquo;s always designing. Dope Deco is where it all comes together.</p>
+        </div>
+        <ul class="fd-tags"><li><b>Hons</b> Interior Design, University of Northumbria</li><li>Floral design</li><li>Web design</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq band" id="faq" data-bg="#F4F1EC" data-ch="08" data-chn="Good to know" aria-labelledby="faq-h">
     <div class="wrap">
       <div class="head">
-        <span class="label">07 &middot; Good to know</span>
+        <span class="label">08 &middot; Good to know</span>
         <h2 id="faq-h">Questions, <em>answered.</em></h2>
         <p>Anything else? Call or message us and we'll happily talk trees.</p>
         <img src="img/s/nutcracker.webp" alt="">
@@ -984,10 +1038,10 @@ footer .legal img{width:34px;height:auto}
     <div class="wrap sec-cta"><div class="in"><span class="note">Still wondering? Email <b class="sel">hello@dope-deco.com</b> or</span><a class="pill yellow magnetic" href="#contact" data-cursor="Ask">Contact us<span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h9m-3.5-3.5L12 8l-3.5 3.5"/></svg></span></a></div></div>
   </section>
 
-  <section class="contact band" id="contact" data-bg="#FF66A0" data-ch="08" data-chn="Book" aria-labelledby="contact-h">
+  <section class="contact band" id="contact" data-bg="#FF66A0" data-ch="09" data-chn="Book" aria-labelledby="contact-h">
     <div class="wrap">
       <div class="c-head">
-        <span class="label">08 &middot; Let&rsquo;s get started</span>
+        <span class="label">09 &middot; Let&rsquo;s get started</span>
         <h2 id="contact-h"><span class="mask"><span>Let's turn</span></span><span class="mask"><span>yours <em>up.</em></span></span></h2>
         <p class="lede">Install dates are first come, first served. Get in touch early to reserve your slot.</p>
       </div>
@@ -1092,10 +1146,10 @@ footer .legal img{width:34px;height:auto}
       <img src="img/s/goldtree.webp" alt="" style="--h:clamp(56px,8vw,120px)">
     </div>
     <div class="cols">
-      <div><h3>On this page</h3><a href="#about">About</a><a href="#services">What we style</a><a href="#grove">Signature setups</a><a href="#reels">In motion</a><a href="#how">How it works</a></div>
+      <div><h3>On this page</h3><a href="#about">About</a><a href="#services">What we style</a><a href="#grove">Signature setups</a><a href="#reels">In motion</a><a href="#how">How it works</a><a href="#founder">Founder</a></div>
       <div><h3>Say hello</h3><span>0778 176 748</span><span>hello@dope-deco.com</span><span>@dopedeco</span></div>
       <div><h3>Working hours</h3><span>Mon to Fri, 10am to 5pm</span><span>Closed on weekends and Poya days</span></div>
-      <div><h3>This season</h3><span>Booking now for Christmas 2026.</span><span>Homes, offices, retail and F&amp;B.</span></div>
+      <div><h3>This season</h3><span>Booking now for Christmas 2026.</span><span>Styling Christmas for 5+ years.</span><span>Homes, offices, retail and F&amp;B.</span></div>
     </div>
     <div class="legal"><img src="img/mono-white.png" alt="Dope Deco"><span>&copy; 2026 Dope Deco, a brand of Viral Cube (Pvt) Ltd, Sri Lanka.</span><span>Christmas, turnt up.</span></div>
   </div>
@@ -1185,7 +1239,7 @@ if (fine && !reduce) {
 
 /* ---------- ticker ---------- */
 const tk = document.getElementById('ticker');
-const words = [['Homes','span'],['bear'],['Offices','em'],['disco'],['Shops','span'],['nutcracker'],['Restaurants','em'],['star'],['Bars','span'],['bauble-red'],['Make it sparkle','em'],['snowflake']];
+const words = [['Homes','span'],['bear'],['Offices','em'],['disco'],['Shops','span'],['nutcracker'],['Restaurants','em'],['star'],['Bars','span'],['bauble-red'],['Make it sparkle','em'],['snowflake-chunky']];
 const row = words.map(([w,t]) => t ? `<${t}>${w}</${t}>` : `<img src="img/s/${w}.webp" alt="" loading="lazy">`).join('');
 tk.innerHTML = row + row + row;
 const tk2 = document.getElementById('ticker2'), steps = ['Designed','Delivered','Installed','Taken down','Stored for you','Back next Christmas'];
@@ -2565,5 +2619,12 @@ else {
 }
 })();
 </script>
+
+</html><script>
+(() => { const els = document.querySelectorAll('.fd-rv'); if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold: .2});
+  els.forEach(e => io.observe(e)); })();
+</script>
+
 
 </html>

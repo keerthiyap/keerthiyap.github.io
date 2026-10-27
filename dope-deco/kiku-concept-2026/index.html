@@ -43,6 +43,7 @@ html,body{height:100%;margin:0;background:var(--night);color:var(--snow);font-fa
 .load{position:fixed;inset:0;display:grid;place-items:center;font:400 14px/1 var(--sans);color:var(--muted);pointer-events:none;transition:opacity .6s}
 .load.done{opacity:0}
 @media (max-width:520px){.hint{width:100%}}
+.legal{box-sizing:border-box;width:100%;margin:2px 0 0;padding:8px 12px;border-radius:12px;background:var(--glass);border:1px solid rgba(42,30,34,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:400 11px/1.5 var(--sans);color:#4E4046;pointer-events:auto}
 </style>
 
 <canvas id="stage" aria-label="3D Christmas tree decorated with disco balls, silver and magenta tinsel and crystal bead strands and crystal icicles. Drag to turn it."></canvas>
@@ -76,6 +77,7 @@ html,body{height:100%;margin:0;background:var(--night);color:var(--snow);font-fa
     <button id="bReset" type="button">Reset view</button>
   </div>
   <div class="hint">Drag to turn the tree. Scroll or pinch to zoom.</div>
+  <footer class="legal">&copy; 2026 Dope Deco, a brand of Viral Cube (Pvt) Ltd. All rights to this design belong to Dope Deco. It is shared for viewing only by the person it was sent to, and may not be copied, shared or reproduced without our written permission.</footer>
 </div>
 
 <script type="importmap">

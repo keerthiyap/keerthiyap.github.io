@@ -196,6 +196,9 @@ const pine = new THREE.MeshStandardMaterial({ color: '#D9C2A0', roughness: 0.62 
 const pinePale = new THREE.MeshStandardMaterial({ color: '#E2CFB2', roughness: 0.6 });
 const plushPink = new THREE.MeshStandardMaterial({ color: '#EFC1B8', roughness: 0.95 });
 const plushBlue = new THREE.MeshStandardMaterial({ color: '#9AA7B2', roughness: 0.95 });
+const plushBlush = new THREE.MeshStandardMaterial({ color: '#E8CACA', roughness: 0.95 });
+const plushGreen = new THREE.MeshStandardMaterial({ color: '#2F4A3A', roughness: 0.9 });
+const blackTop = new THREE.MeshStandardMaterial({ color: '#1C1C1F', roughness: 0.3, metalness: 0.1 });
 const steel = new THREE.MeshStandardMaterial({ color: '#1E1E21', roughness: 0.45, metalness: 0.4 });
 const white = new THREE.MeshStandardMaterial({ color: '#F7F5F2', roughness: 0.85 });
 const plushCream = new THREE.MeshStandardMaterial({ color: '#F6F0E6', roughness: 0.95 });
@@ -248,13 +251,14 @@ function blushBench(x, z, face, len) {
   cushion(len - 0.04, 0.46, 0.16, plushPink, 0, 0.74, -0.24, g, -0.1);
   const n = Math.max(2, Math.round(len / 0.7));
   for (let i = 0; i < n; i++) { const cx = -len / 2 + (i + 0.5) * len / n;
-    const c = new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 16), i % 2 ? plushCream : plushPink); c.scale.set(1, 1, 0.55); c.position.set(cx, 0.68, -0.1); c.rotation.x = -0.2; g.add(c); }
+    if (i % 2) cushion(0.36, 0.36, 0.1, plushGreen, cx, 0.7, -0.1, g, -0.25).rotation.z = 0.12;
+    else { const c = new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 16), plushPink); c.scale.set(1, 1, 0.55); c.position.set(cx, 0.68, -0.1); c.rotation.x = -0.2; g.add(c); } }
   scene.add(g); blob(x, z, len + 0.6, 1.2);
 }
 // large folded-paper origami pendant
 const paper = new THREE.MeshStandardMaterial({ color: '#FFF8F0', emissive: '#FFA860', emissiveIntensity: 0.8, roughness: 0.75, flatShading: true, side: THREE.DoubleSide, transparent: true, opacity: 0.78 });
 const lampCore = new THREE.MeshBasicMaterial({ color: new THREE.Color('#FF9A48').multiplyScalar(4.5), toneMapped: false });
-function origami(x, z, size, y) {
+function origami(x, z, size, y, light = true) {
   const g = new THREE.Group(); g.position.set(x, y, z);
   const geo = new THREE.IcosahedronGeometry(size, 1); const pos = geo.attributes.position;
   for (let i = 0; i < pos.count; i++) { const v = new THREE.Vector3().fromBufferAttribute(pos, i); const k = 1 + 0.18 * Math.sin(v.x * 9 / size) * Math.cos(v.z * 9 / size); v.multiplyScalar(k); v.y *= 0.82; pos.setXYZ(i, v.x, v.y, v.z); }
@@ -264,7 +268,7 @@ function origami(x, z, size, y) {
   const low = new THREE.Mesh(new THREE.OctahedronGeometry(size * 0.55, 0), paper); low.position.y = -size * 0.75; low.rotation.y = 0.4; g.add(low);
   const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, CEIL - y, 6), new THREE.MeshBasicMaterial({ color: '#BDB4AA' })); cord.position.y = (CEIL - y) / 2 + size * 0.8; g.add(cord);
   scene.add(g);
-  const glow = new THREE.PointLight('#FFB868', size > 0.3 ? 1.6 : 0.9, 6, 1.4); glow.position.set(x, y - size, z); scene.add(glow);
+  if (light) { const glow = new THREE.PointLight('#FFB868', size > 0.3 ? 1.6 : 0.9, 6, 1.4); glow.position.set(x, y - size, z); scene.add(glow); }
 }
 // black steel cross bracing, floor to ceiling
 function xBrace(x, z0, z1) {
@@ -277,14 +281,67 @@ function xBrace(x, z0, z1) {
 function counter(x, z0, z1) {
   const g = new THREE.Group(); const L = z1 - z0;
   const pivot = new THREE.Group(); pivot.position.set(x, 0, (z0 + z1) / 2); pivot.scale.setScalar(FS); g.position.set(-x, 0, -(z0 + z1) / 2); pivot.add(g);
-  box(0.42, 0.05, L, pinePale, x, 1.04, (z0 + z1) / 2, g);
+  box(0.42, 0.05, L, blackTop, x, 1.04, (z0 + z1) / 2, g);
   for (const zz of [z0 + 0.15, z1 - 0.15]) box(0.04, 1.02, 0.04, steel, x, 0.51, zz, g);
   const n = Math.floor(L / 0.75);
   for (let i = 0; i < n; i++) { const zz = z0 + (i + 0.5) * L / n, sx = x - 0.48;
-    const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.05, 24), pine); seat.position.set(sx, 0.74, zz); g.add(seat);
+    const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.05, 24), pine);
+    const pad2 = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.04, 24), blackTop); pad2.position.set(sx, 0.78, zz); g.add(pad2); seat.position.set(sx, 0.74, zz); g.add(seat);
     for (let k = 0; k < 4; k++) { const a = k / 4 * 6.283 + 0.78; const l = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.012, 0.74, 6), steel); l.position.set(sx + Math.cos(a) * 0.12, 0.37, zz + Math.sin(a) * 0.12); l.rotation.set(Math.sin(a) * 0.08, 0, -Math.cos(a) * 0.08); g.add(l); }
   }
   scene.add(pivot);
+}
+
+// pine settee with a wavy top rail and spindle back and arms, plush seat and back cushions
+function rail(points, r, parent) { const c = new THREE.CatmullRomCurve3(points.map(p => new THREE.Vector3(...p))); const m = new THREE.Mesh(new THREE.TubeGeometry(c, 40, r, 8, false), pine); parent.add(m); return c; }
+function settee(x, z, face, len, mat) {
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.scale.setScalar(FS); g.rotation.y = face;
+  const hw = len / 2, D = 0.66;
+  box(len, 0.06, D, pine, 0, 0.3, 0, g);
+  for (const [lx, lz] of [[-hw + .04, -D / 2 + .04], [hw - .04, -D / 2 + .04], [-hw + .04, D / 2 - .04], [hw - .04, D / 2 - .04]]) { const l = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.016, 0.3, 10), pine); l.position.set(lx * 1.02, 0.15, lz * 1.02); g.add(l); }
+  // back: a gentle double wave across the top
+  const backPts = []; for (let i = 0; i <= 12; i++) { const t = i / 12; backPts.push([-hw + t * len, 0.76 + 0.07 * Math.pow(Math.sin(Math.PI * 2 * t), 2) + 0.03 * Math.sin(Math.PI * t), -D / 2]); }
+  const back = rail(backPts, 0.024, g);
+  const nb = Math.round(len / 0.1);
+  for (let i = 1; i < nb; i++) { const t = i / nb, p = back.getPoint(t); const h = p.y - 0.33; const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, h, 6), pine); sp.position.set(p.x, 0.33 + h / 2, -D / 2); g.add(sp); }
+  // arms: curved rail sweeping from the back down to the front post, spindles below
+  for (const sx of [-hw, hw]) {
+    const arm = rail([[sx, 0.8, -D / 2], [sx, 0.7, -D / 6], [sx, 0.63, D / 4], [sx, 0.58, D / 2]], 0.022, g);
+    for (let i = 1; i < 7; i++) { const p = arm.getPoint(i / 7); const h = p.y - 0.33; const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, h, 6), pine); sp.position.set(sx, 0.33 + h / 2, p.z); g.add(sp); }
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.3, 8), pine); post.position.set(sx, 0.45, D / 2); g.add(post);
+  }
+  cushion(len - 0.06, 0.15, D - 0.08, mat, 0, 0.405, 0.03, g);
+  cushion(len - 0.1, 0.42, 0.16, mat, 0, 0.66, -D / 2 + 0.13, g, -0.14);
+  scene.add(g); blob(x, z, len + 0.5, 1.1);
+}
+// gallery wall: small prints in white frames, in neat columns, like the café's own walls
+const printTex = Array.from({ length: 8 }, (_, k) => { const c = document.createElement('canvas'); c.width = 96; c.height = 128; const g = c.getContext('2d');
+  const pal = [['#F3EFEA', '#2F6E5A', '#E7A08F'], ['#F4EEE6', '#3B5BA5', '#F2C14E'], ['#EFF1EC', '#C8463D', '#2B2B2B'], ['#F6F1EA', '#7A5BA6', '#9CC5A1'], ['#F2F0EB', '#E57A9C', '#3D7A8C'], ['#EEF0F2', '#1F3B57', '#E9B44C'], ['#F5EFE7', '#5C8D4E', '#D9563F'], ['#F1EEF2', '#A3355C', '#F0C9D5']][k];
+  g.fillStyle = pal[0]; g.fillRect(0, 0, 96, 128); g.fillStyle = pal[1];
+  if (k % 3 === 0) { g.beginPath(); g.arc(48, 56, 26, 0, 6.283); g.fill(); g.fillStyle = pal[2]; g.fillRect(18, 92, 60, 10); }
+  else if (k % 3 === 1) { g.fillRect(16, 18, 64, 70); g.fillStyle = pal[2]; g.beginPath(); g.moveTo(16, 88); g.lineTo(48, 40); g.lineTo(80, 88); g.fill(); }
+  else { for (let i = 0; i < 4; i++) { g.fillStyle = pal[1 + (i % 2)]; g.fillRect(16 + i * 16, 24 + i * 6, 12, 70 - i * 10); } }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; });
+const printMats = printTex.map(t => new THREE.MeshStandardMaterial({ map: t, roughness: 0.7 }));
+function galleryWall(wallX, z0, cols, rows, y0) {
+  for (let c = 0; c < cols; c++) for (let r = 0; r < rows; r++) {
+    const z = z0 + c * 0.52, y = y0 + r * 0.6;
+    const fr = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.46, 0.36), white); fr.position.set(wallX - 0.015, y, z); scene.add(fr);
+    const pr = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 0.3), printMats[(c * 3 + r * 5) % printMats.length]); pr.rotation.y = -Math.PI / 2; pr.position.set(wallX - 0.032, y, z); scene.add(pr);
+  }
+}
+// potted palm: glossy fronds fanning from a white pot
+const leafMat = new THREE.MeshStandardMaterial({ color: '#3F6B3A', roughness: 0.6, side: THREE.DoubleSide });
+function palm(x, z, k = 1) {
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.scale.setScalar(k);
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.17, 0.42, 28), white); pot.position.y = 0.21; g.add(pot);
+  for (let i = 0; i < 11; i++) {
+    const a = i / 11 * 6.283 + rr(-.2, .2), L = rr(0.7, 1.15), tilt = rr(0.35, 0.95);
+    const leaf = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 6), leafMat); leaf.scale.set(0.1, L / 2, 0.012);
+    const stem = new THREE.Group(); stem.position.y = 0.42; stem.rotation.set(0, a, 0);
+    leaf.position.y = L / 2; const tiltG = new THREE.Group(); tiltG.rotation.z = tilt; tiltG.add(leaf); stem.add(tiltG); g.add(stem);
+  }
+  scene.add(g); blob(x, z, 0.8);
 }
 
 // back lounge, framed behind the tree: blush bench, armchairs, coffee tables, big origami lamp
@@ -299,10 +356,15 @@ for (const [cx, cz] of [[-1.1, -ROOM + 0.3], [-ROOM + 0.3, 4.6], [ROOM - 0.3, 4.
 // window counter and stools on the right
 counter(ROOM - 0.35 * FS, -2.2, 2.2);
 // side seating on the left window and around the room
-blushBench(-ROOM + 0.5, -0.2, Math.PI / 2, 3.4);
-coffeeTable(-5.6, -0.9); coffeeTable(-5.6, 0.8, 0.3, 0.42);
-armchair(-4.4, -0.9, -Math.PI / 2 - 0.15, plushCream, plushCream);
-armchair(-4.4, 0.9, -Math.PI / 2 + 0.15, plushBlue, plushCream);
+// along the left glass: settees facing each other across round tables, in blush and dusty blue
+settee(-5.55, -2.25, 0, 1.3, plushBlush); coffeeTable(-5.55, -1.3); settee(-5.55, -0.35, Math.PI, 1.3, plushBlue);
+settee(-5.55, 1.15, 0, 1.3, plushBlue); coffeeTable(-5.55, 2.1); settee(-5.55, 3.05, Math.PI, 1.3, plushBlush);
+// a cluster of big origami lamps up near the ceiling over the settees, one lower
+origami(-5.4, -1.3, 0.72, 3.15); origami(-5.7, 0.4, 0.5, 3.3, false); origami(-5.3, 2.1, 0.68, 3.1, false); origami(-5.6, 0.5, 0.36, 2.45, false);
+// gallery wall above the counter, plants by the glass, more white columns
+galleryWall(ROOM, -2.6, 11, 3, 1.55);
+palm(-6.55, -6.55, 1.1); palm(0.1, -6.6, 0.95); palm(-6.55, 4.0, 1.0);
+const col2 = new THREE.Mesh(new THREE.BoxGeometry(0.42, CEIL, 0.42), white); col2.position.set(-ROOM + 0.3, CEIL / 2, -3.9); scene.add(col2);
 [[-3.3, 3.2], [3.4, 3.4]].forEach(([x, z], i) => {
   table(x, z);
   chair(x + 0.72 * FS, z, -Math.PI / 2, plushCream); chair(x - 0.72 * FS, z, Math.PI / 2, i ? plushPink : plushCream);
